@@ -5,7 +5,7 @@ extern GLfloat aspect;
 extern GLfloat fov;
 int skyprojection_loc;
 mat4 skyprojection;
-GLfloat bsize = 200.0;//Size of Cube
+GLfloat bsize = 100.0;//Size of Cube
 GLfloat points[] = {
 	-bsize,bsize,-bsize,
 	-bsize,-bsize,-bsize,
@@ -86,8 +86,8 @@ void Skybox::Load(void)
 
 	//char * cubefaces[6] = {"Skybox\\right1.png", "Skybox\\left1.png", "Skybox\\top1.png","Skybox\\bottom1.png" ,
 	//	"Skybox\\back1.png", "Skybox\\front1.png" };
-	char * cubefaces[6] = { "Skybox\\sea_rt.jpg", "Skybox\\sea_lf.jpg", "Skybox\\sea_up.jpg","Skybox\\sea_dn.jpg" ,
-		"Skybox\\sea_bk.jpg", "Skybox\\sea_ft.jpg" };
+	char * cubefaces[6] = { "Skybox\\NightSky\\nightsky_rt.jpg", "Skybox\\NightSky\\nightsky_lf.jpg", "Skybox\\NightSky\\nightsky_up.jpg",
+		"Skybox\\NightSky\\nightsky_dn.jpg" ,"Skybox\\NightSky\\nightsky_bk.jpg", "Skybox\\NightSky\\nightsky_ft.jpg" };
 	glBindTexture(GL_TEXTURE_CUBE_MAP, tex);
 	//	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -138,16 +138,8 @@ void Skybox::Draw(void)
 	glDepthMask(GL_TRUE);
 }
 
-void Skybox::sendSkyTex(GLuint program)
+GLuint Skybox::sendSkyTex()
 {
-	GLuint skyBoxTexLoc;
-
-	glUseProgram(program);
-	skyBoxTexLoc = glGetUniformLocation(program, "skyboxTex");
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, tex);
-	glUniform1ui(skyBoxTexLoc, tex);
-
-
+	return tex;
 
 }

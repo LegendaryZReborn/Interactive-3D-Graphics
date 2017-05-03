@@ -3,37 +3,34 @@
 in  vec4 vPosition;
 in vec4 vNormal;
 
-out vec4 color;
 out vec4 normal;
 out vec3 position;
+out vec2 refractionCoeffs;
 
 uniform mat4 model_view;
 uniform mat4 proj;
-uniform mat4 translate;
-uniform mat4 scale;
-
-
 uniform float t;
 
 
 
- uniform float amplitude[8];
-// uniform float waveL[8];
+uniform float amplitude[8];
 uniform float f;
- uniform float speed[8];
- uniform vec2 direction[8];
+uniform float speed[8];
+uniform vec2 direction[8];
 
 
 float wave(int i, float x, float z);
 
- float waveHeight(float x, float z);
+float waveHeight(float x, float z);
 
+float waveX(float x, float z);
+
+float waveZ(float x, float z);
 
 vec2 calcRefractionCoeffs();
 
 float dWavedx(int i, float x, float z);
-
-	   
+   
 float dWavedy(int i, float x, float z);
 
 vec4 waveNormal(float x, float z);
@@ -46,7 +43,10 @@ void main()
 	float height;
 	vec2 rK;
 
+	//periodically adjust vertex y, x and z
 	height = waveHeight(vPosition.x, vPosition.z);
+	v.x += waveX(v.x, v.z);
+	v.z += waveZ(v.x, v.z);
 	v = vPosition;
 	v.y = height;
 
@@ -55,7 +55,8 @@ void main()
 
 	position = (model_view * v).xyz;
     gl_Position = proj* model_view *v;
-	color = vec4(lightCol, (rK.x + rK.y) / 2.0f);
+	refractionCoeffs = rK;
+
 
 
 } 
@@ -78,6 +79,41 @@ void main()
 	}
 
 	return height;
+ }
+
+ float waveX(float x, float z)
+ {
+	float eX = 0.0;
+	float phase; 
+	float theta;
+	float A ;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		phase = speed[i] * f;
+		theta = dot(direction[i], vec2(x, z));
+		A = amplitude[i] * direction[i].x * f;
+		eX += A * cos(theta * f + t/1.5 * phase);
+	}
+
+	return eX;
+ }
+
+ float waveZ(float x, float z)
+ {
+	float zEE = 0.0;
+	float phase;
+    float theta;
+    float A;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		phase = speed[i] * f;
+		theta = dot(direction[i], vec2(x, z));
+		A = amplitude[i] * direction[i].y * f;
+		zEE += A * cos(theta * f + t*1.5 * phase);
+	}
+	return zEE;
  }
 
  //calculates the Fresnel coefficients

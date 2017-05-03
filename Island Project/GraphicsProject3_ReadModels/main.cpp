@@ -18,6 +18,8 @@
 #include <cmath>
 #include<vector>
 #include <random>
+#include "Water.h"
+#include "Temple.h"
 
 // following commands are useable in VS ONLY!!
 // don't forget to add Include Directories and Library Directories in project Property Pages
@@ -31,34 +33,17 @@
 enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
 int      Axis = Xaxis;
 
-// Array of rotation angles (in degrees) for each coordinate axis
-GLfloat  Theta[NumAxes] = { 0.0, 0.0, 0.0 };
-
-
-
 GLfloat aspect = 16.0 /9.0, fov = 45.0, w, h;
-const int numModels = 4;
-//MultiMeshObj objs[numModels] = { "GreekTempleRoof.obj", "GreekTemplePillar2.obj", 
-//"GreekTempleStairs.obj" , "GreekTempleFloor.obj" };
-Object quad("quad.obj");
-//Material mat(96.0, 1, 1, vec3(0.5, 0.5, 0.5), vec3(0.0, 1.0, 0.0), vec3(0.500000, 0.500000, 0.500000), 2, "");
-//Terrain water("waterQuad.jpg", false, mat, 1024);
-Terrain t("firstTerrain2.jpg", true);
+//Terrain t("firstTerrain2.jpg", true);
 Skybox sky;
-//MultiMeshObj cube("cube4tex.obj");
-MultiMeshObj cube2("cube3.obj");
-//MultiMeshObj cube3("cube6tex.obj");
+//MultiMeshObj cube2("cube6tex.obj");
+Water waterQuad(1024, false, "");
 
-
-
-int modelC = 0;
 
 GLfloat deltaTime = 0.0;
 GLfloat lastframe = 0.0;
 GLfloat frame = 0.0, timeC, timebase = 0.0, fps;
 
-GLuint program, waterProgram;
-GLuint  theta;  // The location of the "theta" shader uniform variable
 mat4 model_view, proj;
 
 
@@ -69,45 +54,19 @@ Camera camera(vec4(0.0, 10.0, 35.0, 1.0), vec4(0.0, 0.0, -1.0, 0.0),
 vec4 eye = camera.getPosition();
 vec4 at = camera.getAt();
 vec4 up = camera.getUp();
+GLfloat currentCamSpeed = 0.001;
 GLfloat zz = -2;
-GLint ModelViewLoc, ProjectionLoc, translateLoc, ScaleLoc, deltaTimeLocV;
-GLint ModelViewLoc2, ProjectionLoc2, translateLoc2, ScaleLoc2, deltaTimeLoc;
+GLfloat waveL = 0.0;
 
 bool rotateT = false, firstMouse = true;
 GLfloat old_x, old_y;
 GLfloat yaw  = 0 , pitch = 0;
 
-//A Light structure. Each light has a position, ambient, diffuse and specular values.
-struct Light
-{
-	Light(vec4 pos, vec3 a, vec3 d, vec3 s)
-	{
-		lightPosition = pos;
-		lightAmbient = a;
-		lightDiffuse = d;
-		lightSpecular = s;
-	}
-
-	vec4 lightPosition;
-
-	vec3 lightAmbient; 
-	vec3 lightDiffuse; 
-	vec3 lightSpecular;
-};
-
-GLfloat waveL = 0;
-GLuint waveLLoc;
-//for pillar data
-map<string, vector<vec4>> locations;
-map<string, vector<vec3>> rotations;
-map<string, vector<vec3>> scales;
-string datPath = "Files\\placement.dat";
+//Global Light sources for everything in the scene
+vector<DirLight> Lights;
 
 
-
-
-void readObjectDataFile(string name);
-
+Temple temple;
 // OpenGL initialization
 void init();
 
@@ -166,53 +125,7 @@ main(int argc, char **argv)
 	return 0;
 }
 
-void readObjectDataFile(string name)
-{
-	ifstream infile;
-	vec4 temp;
-	vec3 temp2, temp3;
-	string Oname = "", nOname = "";
-	char c;
 
-	vector<vec4> l;
-	vector<vec3> r;
-	vector<vec3> s;
-
-
-	infile.open(name);
-	infile >> Oname;
-	nOname = Oname;
-	while (infile)
-	{
-		while (infile && (nOname == Oname))
-		{
-			infile >> temp.x >> temp.y >> temp.z;
-			temp.w = 1;
-
-			l.push_back(temp);
-
-			infile >> temp2.x >> temp2.y >> temp2.z;
-			r.push_back(temp2);
-
-
-			infile >> temp3.x >> temp3.y >> temp3.z;
-			s.push_back(temp3);
-
-			infile >> nOname;
-		}
-
-		locations.insert(pair<string, vector<vec4>>(Oname, l));
-		rotations.insert(pair<string, vector<vec3>>(Oname, r));
-		scales.insert(pair<string, vector<vec3>>(Oname, s));
-		l.clear();
-		r.clear();
-		s.clear();
-
-		Oname = nOname;
-	}
-	infile.close();
-
-}
 
 //----------------------------------------------------------------------------
 
@@ -222,131 +135,32 @@ init()
 {
 
 	// Load shaders and use the resulting shader program
-	program = InitShader("vshader2.glsl", "fshader_a4.glsl");
-	waterProgram = InitShader("watervShader.glsl", "waterfShader.glsl");
-
-	//Read location data for objects in scene from a file
-	readObjectDataFile(datPath);
-	
-	//Inializes/Loads the skybox
-	sky.Load();
-	sky.sendSkyTex(waterProgram);
-
-	
-	//load each object
-	//cube.Load(program);
-	cube2.Load(program);
-	//cube3.Load(program);
-
-	vec3 lightAmbient = vec3(0.7, 0.5, 0.7);
+	vec3 lightAmbient = vec3(0.3, 0.3, 0.7);
 	vec3 lightDiffuse = vec3(0.3, 0.3, 0.7);
 	vec3 lightSpecular = vec3(1.0, 1.0, 1.0);
 
-	vector<DirLight> Lights;
-
-	//Lights.push_back(vec4(0.0, 0.0, 0.0, 0.0));
 	Lights.push_back(DirLight(vec4(15.0, 15.0, 15.0, 1.0), lightAmbient, lightDiffuse, lightSpecular));
-	//Lights.push_back(Light(vec4(10.0, -50.0, -1024.0, 1.0), lightAmbient, lightDiffuse, lightSpecular));
-	//Lights.push_back(Light(vec4(0.0, 500.0, 0.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(0.0, 1.0, 0.0), lightSpecular));
-	//Lights.push_back(vec4(1000.0, 1.0, 0.0, 0.0));
 
-	//Loads the terrain
-	t.Load(program);
-
-	//get the location of the "model_view" uniform variable
-	ModelViewLoc = glGetUniformLocation(program, "model_view");
-	//get the location of the "translate" uniform variable
-	translateLoc = glGetUniformLocation(program, "translate");
-	//gets the location of the "proj" uniform variable
-	ProjectionLoc = glGetUniformLocation(program, "proj");
-	//gets the location of the "scale" uniform variable
-	ScaleLoc = glGetUniformLocation(program, "scale");
-
-	deltaTimeLocV = glGetUniformLocation(program, "t");
-
-
-	//send each member of each light to its appropriate place in the shader
-	string l = "lights[0].";
-	string p;
-	for (int i = 0; i < Lights.size(); i++)
-	{
-		l[7] = i + '0';
-
-		Lights[i].init(program, l + "LightPosition", l + "LAmbient",
-			l + "LDiffuse", l + "LSpecular");
+	lightAmbient = vec3(0.8, 0.8, 1.0);
+	lightDiffuse = vec3(2.6, 1.6, 1.6);
+	Lights.push_back(DirLight(vec4(15.0, 15.0, 15.0, 1.0), lightAmbient, lightDiffuse, lightSpecular));
 	
-		//send over light settings to the shader
-		Lights[i].transferSettings(program);
-	}
+	//Inializes/Loads the skybox
+	sky.Load();
+	
+	//Load the water quad
+	waterQuad.load();
+	waterQuad.setReflectionTex(sky.sendSkyTex());
 
-	//Send Point Light
-	PointLight pLight(vec4(0.0, 15.0, -25.0, 1.0), vec3(1.0, 0.5, 0.5), 
-		vec3(1.0, 0.0, 0.0), vec3(1.0, 0.4, 0.4), 0.02, 0.02, 0.008);
-
-	l = "pLight.";
-	pLight.init(program, l + "LightPosition", l + "LAmbient",
-		l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
-
-
-	//send over light settings to the shader
-	pLight.transferSettings(program);
-
-	quad.Load(waterProgram);
-//	water.Load(waterProgram);
-	Lights.push_back(DirLight(vec4(-15.0, 5.0, -15.0, 1.0), lightAmbient, lightDiffuse, vec3(0.1, 0.1, 0.8)));
-
-	GLuint amplitudeLoc, speedLoc, directionLoc;
-
-	//get the location of the "model_view" uniform variable
-	ModelViewLoc2 = glGetUniformLocation(waterProgram, "model_view");
-	//get the location of the "translate" uniform variable
-	translateLoc2 = glGetUniformLocation(waterProgram, "translate");
-	//gets the location of the "proj" uniform variable
-	ProjectionLoc2 = glGetUniformLocation(waterProgram, "proj");
-	//gets the location of the "scale" uniform variable
-	ScaleLoc2 = glGetUniformLocation(waterProgram, "scale");
-	deltaTimeLoc = glGetUniformLocation(waterProgram, "t");
-	amplitudeLoc = glGetUniformLocation(waterProgram, "amplitude");
-	speedLoc = glGetUniformLocation(waterProgram, "speed");
-	directionLoc = glGetUniformLocation(waterProgram, "direction");
-	waveLLoc = glGetUniformLocation(waterProgram, "f");
-	 l = "lights[0].";
-	//send each member of each light to its appropriate place in the shader
-	 for (int i = 0; i < Lights.size(); i++)
-	 {
-		 l[7] = i + '0';
-
-		 Lights[i].init(waterProgram, l + "LightPosition", l + "LAmbient",
-			 l + "LDiffuse", l + "LSpecular");
-
-		 //send over light settings to the shader
-		 Lights[i].transferSettings(waterProgram);
-	 }
-
-	GLfloat amplitude[8];
-	GLfloat speed[8];
-	vec2 direction[8];
-	srand(time(NULL));
-	for (int i = 0; i < 8; ++i)
-	{
-		amplitude[i] = 1;
-		//waveL = 0;
-		//speed[i] = (rand() % 5 + 1) /4.5;
-		speed[i] = 5;
-		direction[i] = vec2(rand() % 3 - 1, rand() % 3 - 1);
-
-	}
-	glUniform1fv(amplitudeLoc, 8, amplitude);
-	glUniform1f(waveLLoc, waveL);
-	glUniform1fv(speedLoc, 8, speed);
-	glUniform2fv(directionLoc, 8, direction[0]);
-
-	//vector<vec4> vertices = quad.getVertices();
+	//cube2.Load();
+	//Loads the terrain
+	//t.Load();
+	temple.load();
 
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_SCISSOR_TEST);
 	glEnable(GL_BLEND);
 
+	//glEnable(GL_SCISSOR_TEST);
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 
@@ -354,13 +168,14 @@ init()
 void
 display(void)
 {
+	//glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
 
 	calculateDeltaTime();
 
 
-	reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+	//reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 	//glScissor(0, 0,glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 	renderScene();
 	
@@ -383,11 +198,6 @@ void reshape(int width, int height)
 	zFar = 1000000;
 
 	proj = Perspective(fov, aspect, zNear, zFar);
-	//updates the uniform variable at ProjectionLoc in
-	//the shader program with proj
-	glUniformMatrix4fv(ProjectionLoc, 1, GL_TRUE, proj);
-	glUniformMatrix4fv(ProjectionLoc2, 1, GL_TRUE, proj);
-
 
 	w = width;
 	h = height;
@@ -413,98 +223,19 @@ void renderScene()
 	eye = camera.getPosition();
 	at = eye + camera.getAt();
 	up = camera.getUp();
+	model_view = LookAt(eye, at, up);
 
 	sky.Draw();
 
-	model_view = LookAt(eye, at, up);
-
-
-	glUseProgram(program);
-
-	glUniform1f(deltaTimeLocV, glutGet(GLUT_ELAPSED_TIME) / 200);
-
 	//Draw terrain
-	t.Draw(program);
+	//t.Draw();
+	temple.draw();
 
-	cube2.Draw(program);
-
-	glUseProgram(waterProgram);
-
-//	glUniformMatrix4fv(ModelViewLoc2, 1, GL_TRUE, model_view);
-	//glUniformMatrix4fv(ScaleLoc2, 1, GL_TRUE, scale);
-	//translationM = Translate(vec3(0.0, 5.0, 0.0));
-	//glUniformMatrix4fv(translateLoc2, 1, GL_TRUE, translationM);
-	glUniform1f(deltaTimeLoc, glutGet(GLUT_ELAPSED_TIME)/100);
-	glUniform1f(waveLLoc, waveL);
-	
-	quad.translateObj(vec3(0.0, 5.0, 0.0));
-	quad.Draw(waterProgram);
-
-	glUseProgram(program);
+	//waterQuad.translateWater(vec3(0.0, 10.0, 0.0));
+	//waterQuad.draw();
 
 
 	
-
-
-/*	//Draws models
-	for (auto x : objs)
-	{
-
-		if (x.getFileName() == "GreekTemplePillar2.obj")
-		{
-			vector<vec4> l = locations["Pillars"];
-
-			for (int i = 0; i < l.size(); i++)
-			{
-				translationM = Translate(l[i].x, l[i].y , l[i].z) ;
-				glUniformMatrix4fv(translateLoc, 1, GL_TRUE, translationM);
-
-
-				x.Draw(program);
-
-			}
-		}
-		else if (x.getFileName() == "GreekTempleFloor.obj")
-		{
-			vector<vec4> l = locations["Floors"];
-
-			for (int i = 0; i < l.size(); i++)
-			{
-				translationM = Translate(l[i].x, l[i].y, l[i].z);
-				glUniformMatrix4fv(translateLoc, 1, GL_TRUE, translationM);
-
-				x.Draw(program);
-			}
-		}
-		else if (x.getFileName() == "GreekTempleRoof.obj")
-		{
-			vector<vec4> l = locations["Roof"];
-
-			for (int i = 0; i < l.size(); i++)
-			{
-				translationM = Translate(l[i].x, l[i].y , l[i].z);
-				glUniformMatrix4fv(translateLoc, 1, GL_TRUE, translationM);
-
-				x.Draw(program);
-			}
-		}
-		else if (x.getFileName() == "GreekTempleStairs.obj")
-		{
-			vector<vec4> l = locations["Stairs"];
-
-			for (int i = 0; i < l.size(); i++)
-			{
-				translationM = Translate(l[i].x, l[i].y, l[i].z);
-				glUniformMatrix4fv(translateLoc, 1, GL_TRUE, translationM);
-
-
-				x.Draw(program);
-			}
-		}
-
-
-	}
-	*/
 }
 
 //----------------------------------------------------------------------------
@@ -546,7 +277,10 @@ keyboard(unsigned char key, int x, int y)
 	GLfloat cameraSpeed;
 	vec4 cameraPos, cameraFront, cameraUp;
 
-	camera.setSpeed(0.02 * deltaTime);
+	if (currentCamSpeed < 0)
+		currentCamSpeed = 0.001;
+
+	camera.setSpeed(currentCamSpeed * deltaTime);
 	cameraSpeed = camera.getSpeed();
 	cameraPos = camera.getPosition();
 	cameraFront = camera.getAt();
@@ -580,12 +314,16 @@ keyboard(unsigned char key, int x, int y)
 		break;
 
 	case 'i': case 'I':
-		waveL += 0.01;
+		waveL += 0.001;
+		waterQuad.setFrequency(waveL);
 		break;
 
 	case 'o': case 'O':
-		if((waveL - 0.01) > 0)
-			waveL -= 0.01;
+		if ((waveL - 0.001) > 0)
+		{
+			waveL -= 0.001;
+			waterQuad.setFrequency(waveL);
+		}
 		break;
 
 	case 'r':
@@ -613,15 +351,11 @@ mouse(int button, int state, int x, int y)
 	if (state == GLUT_DOWN) {
 		switch (button) {
 		case GLUT_LEFT_BUTTON:    Axis = Xaxis;
-			//changeTheta();
 			rotateT = true;
 			break;
 		case GLUT_MIDDLE_BUTTON:  Axis = Yaxis;
-			//changeTheta();
 			break;
 		case GLUT_RIGHT_BUTTON:   Axis = Zaxis;
-			//changeTheta();
-
 			break;
 		}
 
@@ -686,25 +420,15 @@ void mouseWheelScroll(int button, int dir, int x, int y)
 {
 	if (dir > 0)
 	{
-		//zoom in
 
-		if (fov >= 1.0f)
-			fov -= 1;
-
-		if (fov <= 1.0f)
-			fov = 1.0f;
-		reshape(w, h);
+		currentCamSpeed += 0.001;
 
 	}
 	else
 	{
-		//zoom out 
-		if (fov <= 45.0f)
-			fov += 1;
-		if (fov >= 45.0f)
-			fov = 45.0f;
-
-		reshape(w, h);
+		
+		if ((currentCamSpeed -= 0.001) > 0)
+			currentCamSpeed -= 0.001;
 
 	}
 }

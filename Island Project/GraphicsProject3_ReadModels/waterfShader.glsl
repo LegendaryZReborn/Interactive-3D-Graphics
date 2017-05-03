@@ -1,12 +1,12 @@
 
 #version 150
 
-in  vec4 color;
 in vec4 normal;
 in vec3 position;
+in vec2 refractionCoeffs;
 
 out vec4 fColor;
-uniform samplerCube skyboxTex;
+uniform samplerCube reflectTex;
 
 //Lighting and Materials
 uniform vec3 MAmbient, MDiffuse, MSpecular; // Material settings
@@ -20,7 +20,7 @@ struct Light
 	vec3 LSpecular;
 };
 
-#define NUM_LIGHTS 2  
+#define NUM_LIGHTS 1  
  uniform Light lights[NUM_LIGHTS];
 
 
@@ -38,7 +38,7 @@ void main()
 	vec3 I = normalize(-position);
 	vec3 R = reflect(I, normalize(normal.xyz));
 
-	fColor = (color + vec4(lightCol, 0.0)) + (0.6 * texture(skyboxTex, R));
+	fColor = vec4(lightCol, (refractionCoeffs.x + refractionCoeffs.y)/2.0) * (0.3 * texture(reflectTex, R));
 	
 } 
 

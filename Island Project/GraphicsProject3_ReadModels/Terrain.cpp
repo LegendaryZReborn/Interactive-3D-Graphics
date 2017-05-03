@@ -1,12 +1,14 @@
-#include "Terrain.h"
-
-extern mat4 model_view;
 
 //Cavaughn Browne
 #include "Terrain.h"
 #include <SOIL.h>
 #include <fstream>
+#include "DirLight.h"
+#include "PointLight.h"
 
+extern mat4 model_view;
+extern vector<DirLight> Lights;
+extern mat4 proj;
 
 
 Terrain::Terrain()
@@ -42,7 +44,7 @@ Terrain::Terrain(string filename, bool texture)
 
 	init(objFileName);
 
-	mat.Shininess = 96;
+	mat.Shininess = 10.0;
 	mat.mAmbient = vec3(1.0, 1.0, 1.0);
 	mat.mDiffuse = vec3(1.0, 1.0, 1.0);
 	mat.mSpecular = vec3(0.500000, 0.500000, 0.500000);
@@ -60,28 +62,55 @@ Terrain::Terrain(string filename, bool texture, Material mat1, int size)
 	numVertices = 0;
 	numNormals = 0;
 	numIndicies = 0;
-
 	objFileName = filename;
-	//size_t pos = filename.find('.');
-	//textureFile = filename.substr(0, pos);
-	//textureFile.append(".jpg");
-	
 	ctr_box = vec4(0, 0, 0, 1);
-
 	this->size = size;
 	mapText = texture;
-
 	mat = mat1;
 
+	//Initializes the terrain
+	init(objFileName); 
+}
+void Terrain::programInit()
+{
+	getShaderLocations();
+	transferSettings();
 
-	init(objFileName);
+
+	string l;
+	//send each member of each light to its appropriate place in the shader
+	l = "lights[0].";
+
+	for (int i = 0; i < Lights.size(); i++)
+	{
+		l[7] = i + '0';
+
+		Lights[i].init(program, l + "LightPosition", l + "LAmbient",
+			l + "LDiffuse", l + "LSpecular");
+
+		//send over light settings to the shader
+		Lights[i].transferSettings(program);
+	}
+
+	//Send Point Light
+	PointLight pLight2(vec4(0.0, 50.0, 1.0, 1.0), vec3(1.0, 0.5, 0.5),
+		vec3(1.0, 0.0, 0.0), vec3(1.0, 0.4, 0.4), 0.02, 0.02, 0.008);
+	
+	l = "pLight.";
+	pLight2.init(program, l + "LightPosition", l + "LAmbient",
+		l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
+
+
+	//send over light settings to the shader
+	pLight2.transferSettings(program);
 
 
 }
-
-void Terrain::Load(GLuint& program)
+void Terrain::Load()
 {
+	program = InitShader("vshader_terrain.glsl", "fshader_terrain.glsl");
 	glUseProgram(program);
+	programInit();
 
 	cout << "Loading Terrain" << objFileName << endl;
 	//print out number data
@@ -99,15 +128,14 @@ void Terrain::Load(GLuint& program)
 		int sizeT = (numTextures * sizeof(vec2));
 		int sizeI = numIndicies * sizeof(GLuint);
 
-		//color and vertices go in the same buffer
 		glGenBuffers(1, &buffer);
 		glBindBuffer(GL_ARRAY_BUFFER, buffer);
 
 		glBufferData(GL_ARRAY_BUFFER, size + size + sizeT,
 			NULL, GL_STATIC_DRAW);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, &mappedVertices[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, size, size, &mappedNormalsList[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, size + size, sizeT, &mappedTextures[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, &vertices[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, size, size, &normals[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, size + size, sizeT, &textures[0]);
 
 		// plumbing
 		GLuint vPosition = glGetAttribLocation(program, "vPosition");
@@ -124,19 +152,11 @@ void Terrain::Load(GLuint& program)
 		glEnableVertexAttribArray(texcoord);
 		glVertexAttribPointer(texcoord, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size + size));
 
-		//Bind and configure element array buffer
-		glGenBuffers(1, &iBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer);
-
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeI,
-			NULL, GL_STATIC_DRAW);
-
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeI, &indexList[0], GL_STATIC_DRAW);
-
 		//Load Texture
-		GLuint  texLoc;
 		glGenTextures(1, &tex);
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE1);
+		texLoc = glGetUniformLocation(program, "tex");
+		glUniform1i(texLoc, 1);
 		glBindTexture(GL_TEXTURE_2D, tex);
 
 		string fullTextureName = "Textures\\" + mat.textureFile;
@@ -152,7 +172,53 @@ void Terrain::Load(GLuint& program)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
+		//detailTexture
+		string detailTextureName = "Textures\\";
+		detailTextureName.append("detail.jpg");
+
+		glGenTextures(1, &detailTex);
+		dTexLoc = glGetUniformLocation(program, "detailTex");
+		glUniform1i(dTexLoc, 2);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, detailTex);
+
+		image = SOIL_load_image(detailTextureName.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+		SOIL_free_image_data(image);
+
+		//set texture parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);		
+
+		//detailTexture2
+		detailTextureName = "Textures\\";
+		detailTextureName.append("detail2.jpg");
+
+		glGenTextures(1, &detailTex2);
+		dTexLoc = glGetUniformLocation(program, "detailTex2");
+		glUniform1i(dTexLoc, 3);
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, detailTex2);
+
+		image = SOIL_load_image(detailTextureName.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+		SOIL_free_image_data(image);
+
+		//set texture parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glActiveTexture(GL_TEXTURE0);
+
+		//Bind and configure element array buffer
+		glGenBuffers(1, &iBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer);
+
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeI, &indexList[0], GL_STATIC_DRAW);
 
 	}
 	else
@@ -166,8 +232,8 @@ void Terrain::Load(GLuint& program)
 
 		glBufferData(GL_ARRAY_BUFFER, size + size,
 			NULL, GL_STATIC_DRAW);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, &mappedVertices[0]);
-		glBufferSubData(GL_ARRAY_BUFFER, size, size, &mappedNormalsList[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, &vertices[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, size, size, &normals[0]);
 
 		// plumbing
 		GLuint vPosition = glGetAttribLocation(program, "vPosition");
@@ -184,91 +250,20 @@ void Terrain::Load(GLuint& program)
 		glGenBuffers(1, &iBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer);
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeI,
-			NULL, GL_STATIC_DRAW);
-
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeI, &indexList[0], GL_STATIC_DRAW);
-
-		//GLuint texcoord = glGetAttribLocation(program, "texcoord");
-		//glEnableVertexAttribArray(texcoord);
-		//glVertexAttribPointer(texcoord, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(size + size));
-
 	}
-
-	//unbind buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 }
-
-void Terrain::Draw(GLuint& program)
-{
-	glUseProgram(program);
-	glBindVertexArray(vao);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-
-	getShaderLocations(program);
-
-	//send over material settings to the shader
-	transferSettings();
-
-	if (mapText)
-	{
-		//texture
-		glUniform1ui(textBoolLoc, true);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, tex);
-		texLoc = glGetUniformLocation(program, "tex");
-		glUniform1ui(texLoc, tex);
-	}
-	else
-	{
-		//glUniform1ui(textBoolLoc, false);
-
-	}
-	//glPrimitiveRestartIndex(iPrimitiveRestartIndex);
-	//glDrawElements(GL_TRIANGLE_STRIP, numIndicies, GL_UNSIGNED_INT, 0);
-
-	glDrawArrays(GL_TRIANGLES, 0, numVertices);
-
-	//unbind texture and buffer
-	if (mapText)
-		glBindTexture(GL_TEXTURE_2D, 0);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-}
-
 
 //Parses and reads in data from an object file
 void Terrain::init(string filename)
 {
-	struct VD3
-	{
-		VD3()
-		{
-
-		}
-		VD3(vec3 vc, int i)
-		{
-			v.x = vc.x;
-			v.y = vc.y;
-			v.z = vc.z;
-			index = i;
-		}
-
-		vec3 v;
-		int index;
-	};
-
-
 	int width, height;
 	float ruggedFactor;
 	vector<vector <vec4>> QNormals[2];
 	vector<vector<vec4>> vFinalNormals;
-	vector<vector<VD3>> vVertexData;	
+	vector<vector<vec3>> vVertexData;	
 	vector<vector<vec2>> textureData;
-	vector <vec4> norms;
 	
 	string fileNamePath = "Terrains\\" + filename;
 	GLfloat h;
@@ -278,24 +273,23 @@ void Terrain::init(string filename)
 
 	if (image != NULL)
 	{
-		//Resize the grid representing the heights of the vertices
+		vertices.resize(height * width);
+		textures.resize(height * width);
+
+		//Resize the grid to hold the heights from the heightmap
 		heights.resize(height);
-		vVertexData.resize(height);
-		textureData.resize(height);
 		for (int zA = 0; zA < height; zA++)
 		{
-			heights[zA].resize(width);
-			vVertexData[zA].resize(width);
-			textureData[zA].resize(width);
+			heights[zA].resize(width);	
 		}
 
-		ruggedFactor = 255.0/2;
+		ruggedFactor = 240.0/2;
 
 		for (int i = 0; i < height; i++)
 		{
-			//norms.clear();
 			for(int j = 0; j < width; j++)
 			{ 
+				//store hieght map heights
 				heights[i][j] = image[i * height + j] / 255.0;
 
 				h = heights[i][j];
@@ -303,18 +297,16 @@ void Terrain::init(string filename)
 				GLfloat z = (i / (GLfloat)height) * size;
 				GLfloat x = (j / (GLfloat)width) * size;
 
-				textureData[i][j] = vec2(x / size, z / size);
-				
-				
-				vVertexData[i][j] = VD3(vec3(x - (size / 2), h * ruggedFactor , z - (size / 2)), i * width + j);
-				//temporary normal
-				norms.push_back(vec4(0.0, 1.0, 0.0, 0.0));
+				textures[i * height + j] = vec2(x / size, z / size);
+
+				//store vertices - for each row i and each column j
+				vertices[i * height + j] = vec4(x - (size / 2), h * ruggedFactor, z - (size / 2), 1.0);
+
 			}
-			//vFinalNormals.push_back(norms);
 		}	
 
+		//Free image data memory;
 		SOIL_free_image_data(image);
-
 
 		//resize vector of vectors to hold  normals for each triangle in a quad
 		for (int i = 0; i < 2; i++)
@@ -328,12 +320,12 @@ void Terrain::init(string filename)
 		{
 			for (int col = 0; col < width - 1; col++)
 			{
-				vec4 Triangle0Norm = cross(vVertexData[row + 1][col].v - vVertexData[row][col].v,
-					vVertexData[row + 1][col + 1].v - vVertexData[row][col].v);
+				vec4 Triangle0Norm = cross(vertices[(row + 1) * height + col] - vertices[row * height + col],
+					vertices[(row + 1) * height + (col + 1)] - vertices[row * height + col]);
 				Triangle0Norm.w = 0;
 
-				vec4 Triangle1Norm = cross(vVertexData[row + 1][col + 1].v - vVertexData[row][col].v,
-					vVertexData[row][col + 1].v - vVertexData[row][col].v);
+				vec4 Triangle1Norm = cross(vertices[(row + 1) * height + (col + 1)] - vertices[row * height + col],
+					vertices[row * height + (col + 1)] - vertices[row * height + col]);
 				Triangle1Norm.w = 0;
 
 
@@ -343,7 +335,7 @@ void Terrain::init(string filename)
 		}
 			
 
-
+		normals.resize(height * width);
 		//Now time to calculate the vertex normals
 		vector< vector<vec4> > vFinalNormals = vector< vector<vec4> >(width, vector<vec4>(height));
 
@@ -375,85 +367,79 @@ void Terrain::init(string filename)
 			///	vFinalNormal = vec4(0.0, 1.0, 0.0, 0.0);
 				//vFinalNormal = vFinalNormal / vFinalNormal.w;
 				vFinalNormals[i][j] = vFinalNormal; // Store final normal of j-th vertex in i-th row
-
+				normals[i * height + j] = vFinalNormals[i][j];
 
 			}
 		}
 
-		//Map all the data to their appropriate indicies for glDrawArrays
-		for (int row = 0; row < height - 1; row++)
+		//Fill up index List with the appropriate indicies in order
+		for (int i = 0; i < height - 1; i++)
 		{
-			for (int col = 0; col < width - 1; col++)
+			for (int j = 0; j < width; j++)
 			{
-				//map first triangle in quad
-				mappedVertices.push_back(vVertexData[row][col].v);
-				heights2.push_back(vVertexData[row][col].v.y);
-				mappedNormalsList.push_back(vFinalNormals[row][col]);
-				mappedTextures.push_back(textureData[row][col]);
-				indexList.push_back(vVertexData[row][col].index);
-				
-				mappedVertices.push_back(vVertexData[row + 1][col].v);
-				heights2.push_back(vVertexData[row + 1][col].v.y);
-				mappedNormalsList.push_back(vFinalNormals[row + 1][col]);
-				mappedTextures.push_back(textureData[row + 1][col]);
-
-				indexList.push_back(vVertexData[row + 1][col].index);
-
-				mappedVertices.push_back(vVertexData[row + 1][col + 1].v);
-				heights2.push_back(vVertexData[row + 1][col + 1].v.y);
-				mappedNormalsList.push_back(vFinalNormals[row + 1][col + 1]);
-				mappedTextures.push_back(textureData[row+1][col + 1]);
-
-				indexList.push_back(vVertexData[row + 1][col + 1].index);
-				
-
-				//map second triangle in quad
-				mappedVertices.push_back(vVertexData[row][col].v);
-				heights2.push_back(vVertexData[row][col].v.y);
-				mappedNormalsList.push_back(vFinalNormals[row][col]);
-				mappedTextures.push_back(textureData[row][col]);
-				indexList.push_back(vVertexData[row][col].index);
-
-
-				mappedVertices.push_back(vVertexData[row + 1][col + 1].v);
-				heights2.push_back(vVertexData[row + 1][col + 1].v.y);
-				mappedNormalsList.push_back(vFinalNormals[row + 1][col + 1]);
-				mappedTextures.push_back(textureData[row + 1][col + 1]);
-				indexList.push_back(vVertexData[row + 1][col + 1].index);
-
-				mappedVertices.push_back(vVertexData[row ][col + 1].v);
-				heights2.push_back(vVertexData[row][col + 1].v.y);
-				mappedNormalsList.push_back(vFinalNormals[row][col + 1]);
-				mappedTextures.push_back(textureData[row][col + 1]);
-				indexList.push_back(vVertexData[row][col + 1].index);
-
+				indexList.push_back(i * size + j);
+				indexList.push_back((i + 1) * size + j);
 			}
 
+			//push the primitive restart index
+			indexList.push_back(height * width);
 		}
 
-		numVertices = mappedVertices.size();
-		numNormals = mappedNormalsList.size();
-		numTextures = mappedTextures.size();
+		
+		numVertices = vertices.size();
+		numNormals = normals.size();
+		numTextures = textures.size();
 		numIndicies = indexList.size();
+
+		iPrimitiveRestartIndex = height * width;
 
 	}
 	else
 	{
 		cout << "Heightmap not be opened!" << endl;
 	}
-
-
-		
+	
 }
 
-vector<GLfloat> Terrain::getHeigtMap()
+void Terrain::Draw()
 {
-	return heights2;
+	glUseProgram(program);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iBuffer);
+
+	getShaderLocations();
+
+	//send over material settings to the shader
+	transferSettings();
+
+	if (mapText)
+	{
+		//Set bool in shader to true because a texture is being used
+		glUniform1ui(textBoolLoc, true);
+		glBindTexture(GL_TEXTURE_2D, tex);		
+		glBindTexture(GL_TEXTURE_2D, detailTex);
+		glBindTexture(GL_TEXTURE_2D, detailTex2);	
+	}
+	else
+	{
+		glUniform1ui(textBoolLoc, false);
+
+	}
+
+	glEnable(GL_PRIMITIVE_RESTART);
+	 glPrimitiveRestartIndex(iPrimitiveRestartIndex);
+
+	glDrawElements(GL_TRIANGLE_STRIP, numIndicies, GL_UNSIGNED_INT,BUFFER_OFFSET(0));
+
+	//glDrawArrays(GL_TRIANGLES, 0, numVertices);
+	glDisable(GL_PRIMITIVE_RESTART);
+
 }
 
 vector<vec4> Terrain::getNormals()
 {
-	return mappedNormalsList;
+	return normals;
 }
 
 vec4 Terrain::provideBoxCenter()
@@ -482,17 +468,16 @@ void Terrain::rotateTerrain(GLfloat xAxis, GLfloat yAxis, GLfloat zAxis)
 }
 
 
-void Terrain::getShaderLocations(GLuint& program)
+void Terrain::getShaderLocations()
 {
-	glUseProgram(program);
-
 	ModelViewLoc = glGetUniformLocation(program, "model_view");
 	MAmbientLoc = glGetUniformLocation(program, "MAmbient");
 	MDiffuseLoc = glGetUniformLocation(program, "MDiffuse");
 	MSpecularLoc = glGetUniformLocation(program, "MSpecular");
 	ShininessLoc = glGetUniformLocation(program, "Shininess");
 	textBoolLoc = glGetUniformLocation(program, "mapText");
-
+	ProjectionViewLoc = glGetUniformLocation(program, "proj");
+	deltaTimeLoc = glGetUniformLocation(program, "t");
 
 }
 
@@ -500,11 +485,13 @@ void Terrain::transferSettings()
 {
 	mat4 model_view2 = model_view * translate * scale * rotate;
 	glUniformMatrix4fv(ModelViewLoc, 1, GL_TRUE, model_view2);
+	glUniformMatrix4fv(ProjectionViewLoc, 1, GL_TRUE, proj);
 	glUniform3fv(MAmbientLoc, 1, mat.mAmbient);
 	glUniform3fv(MDiffuseLoc, 1, mat.mDiffuse);
 	glUniform3fv(MSpecularLoc, 1, mat.mSpecular);
 	glUniform1f(ShininessLoc, mat.Shininess);
 	glUniform1i(textBoolLoc, mapText);
+	glUniform1f(deltaTimeLoc, glutGet(GLUT_ELAPSED_TIME) / 200);
 }
 
 Terrain::~Terrain()

@@ -11,14 +11,16 @@ using namespace std;
 class Object 
 {
 public:
+
 	Object();
 	Object(string filename, int numV, int numNorm, int numInd, int numText, bool texture, vector<vec4>& mVerts,
 		vector<vec4>& mNormL, vector<vec2>& mTex, GLfloat bMax, vec4 ctrBox, Material mat1);
 	Object(string filename);
 	~Object();
-	void Load(GLuint &program);
+	void Load();
+	void Init();
 	//draws the object on the screen
-	void Draw(GLuint& program);
+	void Draw();
 	//Reads in and parses the data from an obj file 
 	void readData(string filename);
 	void readMaterialData(string filename);
@@ -26,13 +28,16 @@ public:
 	//Returns ctr_box
 	vec4 provideBoxCenter();
 	GLfloat provideBoxMax();
-	void getShaderLocations(GLuint& program);
+	void getShaderLocations();
 	void transferSettings();
 	void translateObj(vec3 t);
 	void scaleObj(vec3 s);
 	void rotateObj(GLfloat xAxis, GLfloat yAxis, GLfloat zAxis);
 
 	GLuint vao;
+	//Init Shader Program
+	GLuint program;
+	string objFileName;
 private:
 	int numVertices;
 	int numNormals;
@@ -53,12 +58,13 @@ private:
 
 	//Shader file locations
 	GLuint MAmbientLoc, MDiffuseLoc, MSpecularLoc, 
-		ShininessLoc, textBoolLoc, texLoc, ModelViewLoc;
+		ShininessLoc, textBoolLoc, texLoc, ModelViewLoc,
+		deltaTimeLoc, ProjectionViewLoc;
 
 	//transforms
 	mat4 translate, scale, rotate;
 
-	string objFileName;
+	
 	GLuint tex;
 	
 

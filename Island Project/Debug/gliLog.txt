@@ -1,4 +1,4 @@
-GL Intercept Log. Version : 1.34    Compile Date: Aug 23 2016    Run on: Fri Apr 07 14:46:11 2017
+GL Intercept Log. Version : 1.34    Compile Date: Aug 23 2016    Run on: Wed May 03 10:36:15 2017
 
 ===================================================
 ConfigParser::Parse - Unable to open file C:\Users\Cavaughn\Documents\Visual Studio 2015\Projects\Graphics\Island Project\Debug\gliConfig.ini
@@ -1645,7 +1645,3 @@ Diagnostic: Unknown function wglDXRegisterObjectNV being logged.
 Diagnostic: Unknown function wglDXSetResourceShareHandleNV being logged.
 Diagnostic: Unknown function wglDXUnlockObjectsNV being logged.
 Diagnostic: Unknown function wglDXUnregisterObjectNV being logged.
-GLDriver - Shutdown - Current OpenGL context 00010001?
-GLDriver - Shutdown - Outstanding OpenGL context 00010001 ?
-===================================================
-Log End.

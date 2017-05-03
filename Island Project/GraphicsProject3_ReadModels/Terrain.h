@@ -15,13 +15,12 @@ public:
 	Terrain(string filename, bool texture, Material mat, int size);
 
 	~Terrain();
-	void Load(GLuint &program);
+	void programInit();
+	void Load();
 	//draws the Terrain on the screen
-	void Draw(GLuint& program);
+	void Draw();
 	//Reads in and parses the data from an obj file 
 	void init(string filename);
-
-	vector<GLfloat> getHeigtMap();
 
 	vector <vec4> getNormals();
 	
@@ -36,11 +35,12 @@ public:
 
 	void rotateTerrain(GLfloat xAxis, GLfloat yAxis, GLfloat zAxis);
 
-	void getShaderLocations(GLuint& program);
+	void getShaderLocations();
 
 	void transferSettings();
 
 	GLuint vao;
+	GLuint program; //Init Shader Program
 private:
 	int numVertices;
 	int numNormals;
@@ -48,11 +48,10 @@ private:
 	int numTextures;
 	int size;
 	bool mapText = false;
-	vector<vec4> mappedVertices;
-	vector<vec4> mappedNormalsList;
-	vector<vec2> mappedTextures;
+	vector<vec4> vertices;
+	vector<vec4> normals;
+	vector<vec2> textures;
 	vector<vector<GLfloat>> heights;
-	vector<GLfloat> heights2;
 	vector<GLuint> indexList;
 	GLfloat box_max;
 	vec4 ctr_box;
@@ -61,14 +60,15 @@ private:
 	Material mat;
 
 	string objFileName;
-	GLuint tex;
+	GLuint tex, detailTex, detailTex2;
 
 	GLuint iBuffer, buffer;
 	int iPrimitiveRestartIndex;
 
 	//Shader locations
-	GLuint ModelViewLoc;
-	GLuint MAmbientLoc, MDiffuseLoc, MSpecularLoc, ShininessLoc, textBoolLoc, texLoc;
+	GLuint ModelViewLoc, ProjectionViewLoc;
+	GLuint MAmbientLoc, MDiffuseLoc, MSpecularLoc, ShininessLoc, textBoolLoc, texLoc, dTexLoc;
+	GLuint deltaTimeLoc;
 
 	//Transformation matrices
 	mat4 translate, scale, rotate;

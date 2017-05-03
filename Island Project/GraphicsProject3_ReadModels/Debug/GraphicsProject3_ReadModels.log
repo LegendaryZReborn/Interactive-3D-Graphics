@@ -8,33 +8,27 @@ c:\openglfiles\angelfiles\mat.h(721): warning C4244: '=': conversion from 'doubl
 c:\openglfiles\angelfiles\mat.h(723): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 c:\openglfiles\angelfiles\mat.h(726): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 c:\openglfiles\angelfiles\mat.h(743): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(39): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(175): warning C4101: 'c': unreferenced local variable
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(241): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(242): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(271): warning C4018: '<': signed/unsigned mismatch
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(283): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(284): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(296): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(315): warning C4018: '<': signed/unsigned mismatch
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(329): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(336): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(392): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(393): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(424): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(437): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(516): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(527): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(532): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(549): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(583): warning C4305: '+=': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(588): warning C4305: '-=': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(664): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(665): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(669): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(670): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(671): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(696): warning C4244: 'argument': conversion from 'GLfloat' to 'int', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(707): warning C4244: 'argument': conversion from 'GLfloat' to 'int', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(36): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(57): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(138): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(139): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(144): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(145): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(202): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(203): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(247): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(258): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(263): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(281): warning C4305: '=': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(317): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(324): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(398): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(399): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(403): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(404): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(405): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(424): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(430): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(431): warning C4305: '-=': truncation from 'double' to 'GLfloat'
   GraphicsProject3_ReadModels.vcxproj -> C:\Users\Cavaughn\Documents\Visual Studio 2015\Projects\Graphics\Island Project\Debug\Island Project.exe
   GraphicsProject3_ReadModels.vcxproj -> C:\Users\Cavaughn\Documents\Visual Studio 2015\Projects\Graphics\Island Project\Debug\Island Project.pdb (Full PDB)

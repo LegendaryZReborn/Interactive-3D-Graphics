@@ -9,8 +9,6 @@ out vec4 color;
 
 uniform mat4 model_view;
 uniform mat4 proj;
-uniform mat4 translate;
-uniform mat4 scale;
 uniform float t;
 
 //Lighting and Materials
@@ -72,13 +70,13 @@ void main()
 	}
 
 	
+	moveLight(pLight.LightPosition);
 	lightCol += calcPointLight(pLight, E, N, pos);
 
     gl_Position = proj* model_view *vPosition;
 	TexCoord = texcoord;
 	color =  vec4(lightCol , 1.0);
 
-	
 } 
 
 

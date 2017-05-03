@@ -2,8 +2,12 @@
 #include "Object.h"
 #include <SOIL.h>
 #include <fstream>
+#include "DirLight.h"
+#include "PointLight.h"
 
 extern mat4 model_view;
+extern vector<DirLight> Lights;
+extern mat4 proj;
 
 Object::Object()
 {
@@ -53,11 +57,15 @@ Object::Object(string filename)
 
 }
 
-void Object::Load(GLuint& program)
+void Object::Load()
 { 
+	program = InitShader("vshader2.glsl", "fshader_a4.glsl");
 	glUseProgram(program);
 
-	cout << "Loading Object" << objFileName << endl;
+	Init();
+
+
+	cout << "Loading Object " << objFileName << endl;
 	//print out number data
 	cout << "Number of verticies is " << numVertices << endl;
 	cout << "Number of normals is " << numNormals << endl;
@@ -99,9 +107,11 @@ void Object::Load(GLuint& program)
 
 		//Load Texture
 		glGenTextures(1, &tex);
+		texLoc = glGetUniformLocation(program, "tex");
+		glUniform1i(texLoc, 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tex);
-		
+
 		string fullTextureName = "Textures\\" + mat.textureFile;
 		
 		int width, height;
@@ -110,12 +120,13 @@ void Object::Load(GLuint& program)
 		SOIL_free_image_data(image);
 		
 		//set texture parameters
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		//GL_CLAMP_TO_EDGE
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
+		//glBindTexture(GL_TEXTURE_2D, 0); //unbind texture
 
 	}
 	else
@@ -151,13 +162,45 @@ void Object::Load(GLuint& program)
 	
 }
 
-void Object::Draw(GLuint& program)
+void Object::Init()
+{
+	getShaderLocations();
+	transferSettings();
+
+	//send each member of each light to its appropriate place in the shader
+	string l = "lights[0].";
+	string p;
+	for (int i = 0; i < Lights.size(); i++)
+	{
+		l[7] = i + '0';
+
+		Lights[i].init(program, l + "LightPosition", l + "LAmbient",
+			l + "LDiffuse", l + "LSpecular");
+
+		//send over light settings to the shader
+		Lights[i].transferSettings(program);
+	}
+
+	//Send Point Light
+	PointLight pLight(vec4(0.0, 15.0, -25.0, 1.0), vec3(1.0, 0.5, 0.5),
+		vec3(1.0, 0.0, 0.0), vec3(1.0, 0.4, 0.4), 0.02, 0.02, 0.008);
+
+	l = "pLight.";
+	pLight.init(program, l + "LightPosition", l + "LAmbient",
+		l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
+
+
+	//send over light settings to the shader
+	pLight.transferSettings(program);
+
+}
+void Object::Draw()
 {
 	glUseProgram(program);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 
-	getShaderLocations(program);
+	getShaderLocations();
 
 	//send over material settings and tex to the shader
 	transferSettings();
@@ -165,9 +208,8 @@ void Object::Draw(GLuint& program)
 	if (mapText)
 	{
 		//texture
-		glActiveTexture(GL_TEXTURE0 );
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, tex);
-		glUniform1ui(texLoc, tex);
 
 	}
 	
@@ -175,7 +217,7 @@ void Object::Draw(GLuint& program)
 
 	//unbind texture and buffer
 	if(mapText)
-		glBindTexture(GL_TEXTURE_2D, 0);
+		//glBindTexture(GL_TEXTURE_2D, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -226,7 +268,14 @@ void Object::readMaterialData(string filename)
 			else if (data == "map_Kd")
 			{
 				mapText = true;
-				infile >> mat.textureFile;
+				infile.ignore();
+				getline(infile, mat.textureFile);
+				
+
+				size_t pos = mat.textureFile.find_last_of("\\");
+
+				if (pos != string::npos)
+					mat.textureFile = mat.textureFile.substr(pos + 1);
 			}
 
 			infile >> data;
@@ -386,7 +435,7 @@ void Object::readData(string filename)
 	
 
 		//Read in materials
-		size_t pos = filename.find('.');
+		size_t pos = filename.find_last_of('.');
 		materialFile = filename.substr(0, pos);
 		materialFile.append(".mtl");
 		readMaterialData(materialFile);
@@ -412,17 +461,16 @@ GLfloat Object::provideBoxMax()
 	return box_max;
 }
 
-void Object::getShaderLocations(GLuint& program)
+void Object::getShaderLocations()
 {
-	glUseProgram(program);
-
 	ModelViewLoc = glGetUniformLocation(program, "model_view");
+	ProjectionViewLoc = glGetUniformLocation(program, "proj");
 	MAmbientLoc = glGetUniformLocation(program, "MAmbient");
 	MDiffuseLoc = glGetUniformLocation(program, "MDiffuse");
 	MSpecularLoc = glGetUniformLocation(program, "MSpecular");
 	ShininessLoc = glGetUniformLocation(program, "Shininess");
 	textBoolLoc = glGetUniformLocation(program, "mapText");
-	
+	deltaTimeLoc = glGetUniformLocation(program, "t");
 	
 }
 
@@ -430,14 +478,14 @@ void Object::transferSettings()
 {
 	mat4 model_view2 = model_view * translate * scale * rotate;
 	glUniformMatrix4fv(ModelViewLoc, 1, GL_TRUE, model_view2);
+	glUniformMatrix4fv(ProjectionViewLoc, 1, GL_TRUE, proj);
 	glUniform3fv(MAmbientLoc, 1, mat.mAmbient);
 	glUniform3fv(MDiffuseLoc, 1, mat.mDiffuse);
 	glUniform3fv(MSpecularLoc, 1, mat.mSpecular);
 	glUniform1f(ShininessLoc, mat.Shininess);
 	glUniform1i(textBoolLoc, mapText);
+	glUniform1f(deltaTimeLoc, glutGet(GLUT_ELAPSED_TIME) / 1000);
 }
-
-
 
 void Object::translateObj(vec3 t)
 {

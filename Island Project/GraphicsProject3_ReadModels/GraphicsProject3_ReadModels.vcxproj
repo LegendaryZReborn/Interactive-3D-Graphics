@@ -160,7 +160,9 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="Temple.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Water.cpp" />
     <ClCompile Include="WaterFrameBuffers.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,14 +174,18 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="Temple.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Water.h" />
     <ClInclude Include="WaterFrameBuffers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fshader_a4.glsl" />
     <None Include="fshader_sky.glsl" />
+    <None Include="fshader_terrain.glsl" />
     <None Include="vshader2.glsl" />
     <None Include="vshader_sky.glsl" />
+    <None Include="vshader_terrain.glsl" />
     <None Include="waterfShader.glsl" />
     <None Include="watervShader.glsl" />
   </ItemGroup>

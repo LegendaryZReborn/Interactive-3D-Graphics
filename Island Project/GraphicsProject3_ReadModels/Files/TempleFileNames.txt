@@ -1,0 +1,13 @@
+Floor1.001.obj
+Floor1.Struct.Face.obj
+Full_Pillar.001.obj
+Roof.001.obj
+Roof.Struct.Face.obj
+Roof.Struct.obj
+Stairs.001.obj
+Stairs_Inside.obj
+Wall_back.obj
+Wall_Front.obj
+Wall_InsideRm2.obj
+Wall_Left.obj
+Wall_Right.obj

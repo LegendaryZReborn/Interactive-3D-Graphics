@@ -17,6 +17,6 @@ public:
 	~Skybox(void);
 	void Load(void);
 	void Draw(void);
-	void sendSkyTex(GLuint program);
+	GLuint sendSkyTex();
 
 };

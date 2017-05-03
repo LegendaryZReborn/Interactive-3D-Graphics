@@ -35,7 +35,7 @@ void MultiMeshObj::readData(string filename)
 	Material mat;
 
 	//Read in material data 
-	size_t pos = filename.find('.');
+	size_t pos = filename.find_last_of('.');	
 	materialFile = filename.substr(0, pos);
 	materialFile.append(".mtl");
 	readMaterialData(materialFile);
@@ -292,6 +292,12 @@ void MultiMeshObj::readMaterialData(string filename)
 					{
 						mapText = true;
 						infile >> mat.textureFile;
+
+						
+						size_t pos = mat.textureFile.find_last_of("\\");
+
+						if(pos != string::npos)
+							mat.textureFile = mat.textureFile.substr(pos + 1);
 					}
 
 					infile >> data2;
@@ -312,7 +318,7 @@ void MultiMeshObj::readMaterialData(string filename)
 	}
 }
 
-void MultiMeshObj::Load(GLuint &program)
+void MultiMeshObj::Load()
 {
 	readData(objFileName);
 	
@@ -320,18 +326,18 @@ void MultiMeshObj::Load(GLuint &program)
 	{
 		for (int i = 0; i < subMeshes.size() ; i++)
 		{
-			subMeshes[i].Load(program);
+			subMeshes[i].Load();
 		}
 	}
 }
-void MultiMeshObj::Draw(GLuint& program)
+void MultiMeshObj::Draw()
 {
 	if (!subMeshes.empty())
 	{
 		for (int i = 0; i < subMeshes.size(); i++)
 		{
 
-			subMeshes[i].Draw(program);
+			subMeshes[i].Draw();
 
 
 		}
@@ -388,11 +394,27 @@ void MultiMeshObj::translateObj(vec3 t)
 		}
 	}
 }
+void MultiMeshObj::scaleObj(vec3 s)
+{
+	if (!subMeshes.empty())
+	{
+		for (int i = 0; i < subMeshes.size(); i++)
+		{
 
+			subMeshes[i].scaleObj(s);
+
+		}
+	}
+}
 string MultiMeshObj::getFileName()
 {
 	return objFileName;
 }
+GLuint MultiMeshObj::getProgram(int subIndex)
+{
+	return subMeshes[subIndex].program;
+}
+
 
 MultiMeshObj::~MultiMeshObj()
 {

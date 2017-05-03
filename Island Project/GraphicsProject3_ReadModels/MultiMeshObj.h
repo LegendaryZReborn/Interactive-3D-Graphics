@@ -20,9 +20,9 @@ public:
 
 	void readMaterialData(string filename);
 
-	void Load(GLuint &program);
+	void Load();
 	//draws the object on the screen
-	void Draw(GLuint& program);
+	void Draw();
 
 	vec4 provideBoxCenter();
 	GLfloat provideBoxMax();
@@ -30,7 +30,8 @@ public:
 		GLfloat zmax, GLfloat ymin, GLfloat ymax);
 	string getFileName();
 	void translateObj(vec3 t);
-
+	void scaleObj(vec3 s);
+	GLuint getProgram(int subIndex);
 
 private:
 	int numVertices;
