@@ -36,6 +36,28 @@ void DirLight::transferSettings(GLuint& program)
 	glUniform4fv(LightPositionLoc, 1, lightPosition);
 }
 
+void DirLight::setPosition(vec4 p)
+{
+	lightPosition = p;
+}
+
+void DirLight::translateLight(vec3 t)
+{
+	lightPosition = Translate(t) *  lightPosition;
+}
+
+void DirLight::scaleLight(vec3 s)
+{
+	lightPosition = Scale(s) *  lightPosition;
+
+}
+
+void DirLight::rotateLight(vec3 r)
+{
+	lightPosition = RotateX(r.x) * RotateY(r.y) * RotateZ(r.z) *  lightPosition;
+
+}
+
 DirLight::~DirLight()
 {
 }

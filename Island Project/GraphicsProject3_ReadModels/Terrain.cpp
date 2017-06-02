@@ -44,7 +44,7 @@ Terrain::Terrain(string filename, bool texture)
 
 	init(objFileName);
 
-	mat.Shininess = 10.0;
+	mat.Shininess = 200.0;
 	mat.mAmbient = vec3(1.0, 1.0, 1.0);
 	mat.mDiffuse = vec3(1.0, 1.0, 1.0);
 	mat.mSpecular = vec3(0.500000, 0.500000, 0.500000);
@@ -92,17 +92,17 @@ void Terrain::programInit()
 		Lights[i].transferSettings(program);
 	}
 
-	//Send Point Light
-	PointLight pLight2(vec4(0.0, 50.0, 1.0, 1.0), vec3(1.0, 0.5, 0.5),
-		vec3(1.0, 0.0, 0.0), vec3(1.0, 0.4, 0.4), 0.02, 0.02, 0.008);
-	
-	l = "pLight.";
-	pLight2.init(program, l + "LightPosition", l + "LAmbient",
-		l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
+	////Send Point Light
+	//PointLight pLight2(vec4(0.0, 50.0, 1.0, 1.0), vec3(1.0, 0.5, 0.5),
+	//	vec3(1.0, 0.0, 0.0), vec3(1.0, 0.4, 0.4), 0.02, 0.02, 0.008);
+	//
+	//l = "pLight.";
+	//pLight2.init(program, l + "LightPosition", l + "LAmbient",
+	//	l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
 
 
-	//send over light settings to the shader
-	pLight2.transferSettings(program);
+	////send over light settings to the shader
+	//pLight2.transferSettings(program);
 
 
 }

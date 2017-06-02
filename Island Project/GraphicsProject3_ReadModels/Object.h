@@ -4,6 +4,7 @@
 #include<vector>
 #include "Angel.h"
 #include "Material.h"
+#include <algorithm>
 
 
 
@@ -17,7 +18,7 @@ public:
 		vector<vec4>& mNormL, vector<vec2>& mTex, GLfloat bMax, vec4 ctrBox, Material mat1);
 	Object(string filename);
 	~Object();
-	void Load();
+	void Load(GLuint program);
 	void Init();
 	//draws the object on the screen
 	void Draw();
@@ -28,6 +29,9 @@ public:
 	//Returns ctr_box
 	vec4 provideBoxCenter();
 	GLfloat provideBoxMax();
+	vec4 provideMinPoint();
+	vec4 provideMaxPoint();
+	vector<vec4> provideAABB();
 	void getShaderLocations();
 	void transferSettings();
 	void translateObj(vec3 t);
@@ -39,6 +43,9 @@ public:
 	GLuint program;
 	string objFileName;
 private:
+
+	void transferLights();
+
 	int numVertices;
 	int numNormals;
 	int numIndicies;
@@ -48,8 +55,10 @@ private:
 	vector<vec4> mappedNormalsList;
 	vector<vec2> mappedTextures;
 	GLfloat box_max;
+	vec4 boxMinP;
+	vec4 boxMaxP;
 	vec4 ctr_box;
-
+	vector<vec4> bBoxPoints;
 	GLuint buffer;
 
 	//Material file data

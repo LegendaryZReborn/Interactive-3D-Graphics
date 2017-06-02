@@ -15,9 +15,8 @@ void main()
 	{
 		vec4 up = vec4(0.0, 1.0, 0.0, 0.0);
 		float angle = dot(normalize(Norm), normalize(up));
-		angle = acos(angle);
-
-		fColor = (angle * texture(detailTex, 40*TexCoord) + (1.0-angle) * texture(detailTex2, 60*TexCoord)) * color;
+		
+		fColor = ((1.0 - angle) * texture(detailTex, 40*TexCoord) + angle * texture(detailTex2, 60*TexCoord)) * color;
 		
 		
 		

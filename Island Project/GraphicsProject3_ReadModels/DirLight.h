@@ -11,6 +11,10 @@ public:
 	
 	void init(GLuint &program, string pos_Loc, string a_Loc, string d_Loc, string s_Loc);
 	void transferSettings(GLuint& program);
+	void setPosition(vec4 p);
+	void translateLight(vec3 t);
+	void scaleLight(vec3 s);
+	void rotateLight(vec3 r);
 	~DirLight();
 protected:
 	GLuint LDiffuseLoc, LAmbientLoc, LSpecularLoc, 

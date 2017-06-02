@@ -71,8 +71,8 @@ void main()
 	}
 
 	
-	moveLight(pLight.LightPosition);
-	lightCol += calcPointLight(pLight, E, N, pos);
+	//moveLight(pLight.LightPosition);
+	//lightCol += calcPointLight(pLight, E, N, pos);
 
 	Norm = vNormal;
     gl_Position = proj* model_view *vPosition;
@@ -90,7 +90,7 @@ void main()
 	float dx = 10 * cos(t);
 	float dy = 10 * sin(t );
 	l.x += dx;
-	//l.y += dy;
+	l.y += dy;
 
 	return l;
  }

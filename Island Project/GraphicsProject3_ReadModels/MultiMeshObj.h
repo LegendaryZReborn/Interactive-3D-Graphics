@@ -20,7 +20,7 @@ public:
 
 	void readMaterialData(string filename);
 
-	void Load();
+	void Load(GLuint program);
 	//draws the object on the screen
 	void Draw();
 

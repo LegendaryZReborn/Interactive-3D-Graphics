@@ -1,4 +1,8 @@
 #include "Temple.h"
+#include "PointLight.h"
+
+extern bool checkFrustrum(vector<vec4> bBPoints);
+extern vector<PointLight> ptempleLights;
 
 Temple::Temple()
 {
@@ -9,49 +13,53 @@ Temple::Temple()
 	fileNamePath += "\\Projects\\Graphics\\Island Project\\GraphicsProject3_ReadModels\\Files\\";
 	fileNamePath += "TempleFileNames.txt";
 
+	//Reads the file containg the object names, locations etc
 	readPlacementFile();
 
-	bool firstPillar = true;
-	size_t pos;
+
+	//Add point lights at the specified locations
+	for (auto l : locations["Light"])
+	{
+		ptempleLights.push_back(PointLight(l, vec3(1.0, 1.0, 1.0),
+			vec3(1.0, 1.0, 1.0), vec3(1.0, 0.4, 0.4), 0.00001, 0.0009, 0.05));
+		
+	}
+
+	
+	bool duplicate;
 	for each(string m in objNames)
 	{
-
-		pos = m.find("Full_Pillar");
-
-		if (pos == string::npos)
-		{
 			n = "Temple\\" + m + ".obj";
 
-			objects.push_back(Object(n));
-
-		}
-		else
-		{
-			if (firstPillar)
+			//Make sure a duplicate isn't added to the list
+			duplicate = false;
+			for (int x = 0; x < objects.size() && duplicate == false; x++)
 			{
-				firstPillar = false;
-				n = "Temple\\" + m + ".obj";
-				objects.push_back(Object(n));
+				if (objects[x].objFileName == n)
+					duplicate = true;
 			}
-		}
+
+			if(!duplicate)
+				objects.push_back(Object(n));
 		
 	}
 
 
 }
 
-void Temple::load()
+void Temple::load(GLuint program)
 {
 	for (int i = 0; i < objects.size(); i++)
 	{
-		objects[i].Load();
+		objects[i].Load(program);
 	}
 }
 
 void Temple::draw()
 {
 	string oFName;
-	size_t pos;
+	int i = 0;
+
 	//Draws models
 	for (int x = 0; x < objects.size(); x++)
 	{
@@ -59,22 +67,23 @@ void Temple::draw()
 		//for each location, translate and draw the corresponding 
 		//object
 		for (auto l : locations[objNames[x]])
-		{
-		
-				//object[x].scaleObj(vec3())
-				objects[x].translateObj(vec3(l.x, l.y, l.z));
-				objects[x].Draw();
+		{	
 			
-		}
+				objects[x].translateObj(vec3(l.x, l.y, l.z) + translate);
 
-		//locations[];
-		//objects[x].translateObj();
-		//objects[].Draw();
+				if (checkFrustrum(objects[x].provideAABB()))
+					objects[x].Draw();
+				
+		}
 
 	}
 	
 }
 
+/*Reads the file containg the object names, locations etc
+Stores the locations, rotations and scales in maps : object names to vectors
+The object names are stored in a vector
+*/
 void Temple::readPlacementFile()
 {
 	ifstream infile;
@@ -110,7 +119,7 @@ void Temple::readPlacementFile()
 			s.push_back(temp3);
 
 			infile >> nOname;
-
+			
 			if (!sameName)
 			{
 				sameName = true;
@@ -133,6 +142,10 @@ void Temple::readPlacementFile()
 
 }
 
+void Temple::translateTemple(vec3 t)
+{
+	translate = t;
+}
 
 Temple::~Temple()
 {

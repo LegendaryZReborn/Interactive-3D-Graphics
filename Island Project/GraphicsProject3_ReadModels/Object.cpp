@@ -7,6 +7,8 @@
 
 extern mat4 model_view;
 extern vector<DirLight> Lights;
+//Lights in the temple
+extern vector<PointLight> ptempleLights;
 extern mat4 proj;
 
 Object::Object()
@@ -20,10 +22,10 @@ Object::Object()
 
 }
 
-Object::Object(string filename, int numV, int numNorm, int numInd,int numText, bool texture, vector<vec4>& mVerts, 
+Object::Object(string filename, int numV, int numNorm, int numInd, int numText, bool texture, vector<vec4>& mVerts,
 	vector<vec4>& mNormL, vector<vec2>& mTex, GLfloat bMax, vec4 ctrBox, Material mat1)
 {
-	
+
 	objFileName = filename;
 
 	ctr_box = vec4(0, 0, 0, 1);
@@ -57,9 +59,9 @@ Object::Object(string filename)
 
 }
 
-void Object::Load()
-{ 
-	program = InitShader("vshader2.glsl", "fshader_a4.glsl");
+void Object::Load(GLuint program)
+{
+	this->program = program;
 	glUseProgram(program);
 
 	Init();
@@ -73,7 +75,7 @@ void Object::Load()
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
-	
+
 	if (mapText)
 	{
 		// Create and initialize a buffer object
@@ -113,12 +115,12 @@ void Object::Load()
 		glBindTexture(GL_TEXTURE_2D, tex);
 
 		string fullTextureName = "Textures\\" + mat.textureFile;
-		
+
 		int width, height;
 		unsigned char* image = SOIL_load_image(fullTextureName.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 		SOIL_free_image_data(image);
-		
+
 		//set texture parameters
 		//GL_CLAMP_TO_EDGE
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -159,41 +161,15 @@ void Object::Load()
 	//unbind buffer
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	
+
 }
 
 void Object::Init()
 {
 	getShaderLocations();
 	transferSettings();
-
-	//send each member of each light to its appropriate place in the shader
-	string l = "lights[0].";
-	string p;
-	for (int i = 0; i < Lights.size(); i++)
-	{
-		l[7] = i + '0';
-
-		Lights[i].init(program, l + "LightPosition", l + "LAmbient",
-			l + "LDiffuse", l + "LSpecular");
-
-		//send over light settings to the shader
-		Lights[i].transferSettings(program);
-	}
-
-	//Send Point Light
-	PointLight pLight(vec4(0.0, 15.0, -25.0, 1.0), vec3(1.0, 0.5, 0.5),
-		vec3(1.0, 0.0, 0.0), vec3(1.0, 0.4, 0.4), 0.02, 0.02, 0.008);
-
-	l = "pLight.";
-	pLight.init(program, l + "LightPosition", l + "LAmbient",
-		l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
-
-
-	//send over light settings to the shader
-	pLight.transferSettings(program);
-
 }
+
 void Object::Draw()
 {
 	glUseProgram(program);
@@ -202,9 +178,11 @@ void Object::Draw()
 
 	getShaderLocations();
 
+	//send over light settings
+	transferLights();
 	//send over material settings and tex to the shader
 	transferSettings();
-	
+
 	if (mapText)
 	{
 		//texture
@@ -212,23 +190,23 @@ void Object::Draw()
 		glBindTexture(GL_TEXTURE_2D, tex);
 
 	}
-	
+
 	glDrawArrays(GL_TRIANGLES, 0, numVertices);
 
 	//unbind texture and buffer
-	if(mapText)
+	if (mapText)
 		//glBindTexture(GL_TEXTURE_2D, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
- }
+}
 
 void Object::readMaterialData(string filename)
 {
 	ifstream infile;
 	string data;
 	string fileNamePath;
-	
+
 	fileNamePath = "Objects\\" + filename;
 
 	infile.open(fileNamePath);
@@ -270,7 +248,7 @@ void Object::readMaterialData(string filename)
 				mapText = true;
 				infile.ignore();
 				getline(infile, mat.textureFile);
-				
+
 
 				size_t pos = mat.textureFile.find_last_of("\\");
 
@@ -300,9 +278,9 @@ void Object::readData(string filename)
 	string data;
 	string materialFile;
 	GLfloat x, y, z;
-	GLfloat xmin = 0, xmax = 0, zmin = 0, zmax = 0, ymin = 0, ymax = 0;
+	GLfloat xmin = FLT_MAX, xmax = -FLT_MAX, zmin = FLT_MAX, zmax = -FLT_MAX, ymin = FLT_MAX, ymax = -FLT_MAX;
 	GLfloat xwidth, ywidth, zwidth;
-	
+
 	string fileNamePath = "Objects\\" + filename;
 	infile.open(fileNamePath);
 	if (infile)
@@ -313,24 +291,17 @@ void Object::readData(string filename)
 			if (data == "v")
 			{
 				infile >> x >> y >> z;
-				vertexList.push_back( vec4(x, y, z, 1));
-				
+
+				vertexList.push_back(vec4(x, y, z, 1));
+
 				//keep track of the max and min in each dimension
-				if (x > xmax)
-					xmax = x;
-				else if (x < xmin)
-					xmin = x;
+				xmin = min(x, xmin);
+				ymin = min(y, ymin);
+				zmin = min(z, zmin);
+				xmax = max(x, xmax);
+				ymax = max(y, ymax);
+				zmax = max(z, zmax);
 
-				if (y > ymax)
-					ymax = y;
-				else if (y < ymin)
-					ymin = y;
-
-				if (z > zmax)
-					zmax = z;
-				else if (z < zmin)
-					zmin = z;
-				
 			}
 			else if (data == "vn")
 			{
@@ -341,7 +312,7 @@ void Object::readData(string filename)
 			{
 				infile >> x >> y;
 				textureList.push_back(vec2(x, y));
-				
+
 			}
 			else if (data == "f")
 			{
@@ -374,7 +345,7 @@ void Object::readData(string filename)
 							num = 0;
 							c++;
 						}
-						else 
+						else
 						{
 							normalsIndexL.push_back(num - 1);
 							num = 0;
@@ -386,18 +357,38 @@ void Object::readData(string filename)
 
 			infile >> data;
 		}
-		
+
 
 		infile.close();
 
 		//if textureList is not empty, there is a texture to map
-		if(textureList.size() != 0)
+		if (textureList.size() != 0)
 			mapText = true;
 
 		//calculate the box_max width
 		xwidth = xmax - xmin;
 		ywidth = ymax - ymin;
 		zwidth = zmax - zmin;
+
+		//Store the max and min points
+		boxMaxP = vec4(xmax, ymax, zmax, 1.0);
+		boxMinP = vec4(xmin, ymin, zmin, 1.0);
+
+		//create 8 points of bounding box 
+		//starting with back plane
+		bBoxPoints.push_back(boxMinP);
+		bBoxPoints.push_back(vec4(boxMinP.x, boxMinP.y + ywidth, boxMinP.z, 1.0));
+		bBoxPoints.push_back(vec4(boxMinP.x + xwidth, boxMinP.y + ywidth, boxMinP.z, 1.0));
+		bBoxPoints.push_back(vec4(boxMinP.x + xwidth, boxMinP.y, boxMinP.z, 1.0));
+
+		//starting with front plane
+		bBoxPoints.push_back(vec4(boxMaxP.x, boxMaxP.y - ywidth, boxMaxP.z, 1.0));
+		bBoxPoints.push_back(vec4(boxMaxP.x - xwidth, boxMaxP.y - ywidth, boxMaxP.z, 1.0));
+		bBoxPoints.push_back(vec4(boxMaxP.x - xwidth, boxMaxP.y, boxMaxP.z, 1.0));
+		bBoxPoints.push_back(boxMaxP);
+
+
+
 
 		//find the maximum with among all three dimensions
 		if (xwidth >= ywidth && xwidth >= zwidth)
@@ -414,16 +405,16 @@ void Object::readData(string filename)
 		}
 
 		//calculate center
-		ctr_box = vec4(xmin + (xwidth) / 2.0, ymin + (ywidth) / 2.0,zmin + (zwidth / 2.0), 1);
-		
-		
+		ctr_box = vec4(xmin + (xwidth) / 2.0, ymin + (ywidth) / 2.0, zmin + (zwidth / 2.0), 1);
+
+
 		//put vertices in mappedVerticies corresponding to the vertexIndexL
-		for (int m = 0; m < vertexIndexL.size(); m++)	{
+		for (int m = 0; m < vertexIndexL.size(); m++) {
 			//add the vertex at index in vertexIndexL
 			mappedVertices.push_back(vertexList[vertexIndexL[m]]);
 			mappedNormalsList.push_back(normalsList[normalsIndexL[m]]);
 
-			if(mapText)
+			if (mapText)
 				mappedTextures.push_back(textureList[textureIndexL[m]]);
 		}
 
@@ -432,7 +423,7 @@ void Object::readData(string filename)
 		numIndicies = vertexIndexL.size();
 		numTextures = mappedTextures.size();
 
-	
+
 
 		//Read in materials
 		size_t pos = filename.find_last_of('.');
@@ -453,7 +444,7 @@ vector<vec4> Object::getVertices()
 
 vec4 Object::provideBoxCenter()
 {
-	return ctr_box;
+	return translate * scale * rotate * ctr_box;
 }
 
 GLfloat Object::provideBoxMax()
@@ -471,7 +462,7 @@ void Object::getShaderLocations()
 	ShininessLoc = glGetUniformLocation(program, "Shininess");
 	textBoolLoc = glGetUniformLocation(program, "mapText");
 	deltaTimeLoc = glGetUniformLocation(program, "t");
-	
+
 }
 
 void Object::transferSettings()
@@ -490,16 +481,75 @@ void Object::transferSettings()
 void Object::translateObj(vec3 t)
 {
 	translate = Translate(t);
+
 }
 
 void Object::scaleObj(vec3 s)
 {
 	scale = Scale(s);
+
 }
 
 void Object::rotateObj(GLfloat xAxis, GLfloat yAxis, GLfloat zAxis)
 {
 	rotate = RotateX(xAxis) * RotateY(yAxis) * RotateZ(zAxis);
+
+}
+
+vec4 Object::provideMinPoint()
+{
+	return translate * scale * rotate * boxMinP;
+
+}
+vec4 Object::provideMaxPoint()
+{
+	return translate * scale * rotate *boxMaxP;
+}
+
+vector<vec4> Object::provideAABB()
+{
+	vector<vec4> newAABB;
+
+	for (auto x : bBoxPoints)
+	{
+		newAABB.push_back(translate * scale * rotate *x);
+	}
+
+	return newAABB;
+}
+
+void Object::transferLights()
+{
+
+	string l;
+	//send each member of each light to its appropriate place in the shader
+	l = "lights[0].";
+
+	for (int i = 0; i < Lights.size(); i++)
+	{
+		l[7] = i + '0';
+
+		Lights[i].init(program, l + "LightPosition", l + "LAmbient",
+			l + "LDiffuse", l + "LSpecular");
+
+		//send over light settings to the shader
+		Lights[i].transferSettings(program);
+	}
+
+	l = "pLight[0].";
+
+	for (int i = 0; i < ptempleLights.size(); i++)
+	{
+		l[7] = i + '0';
+
+		ptempleLights[i].init(program, l + "LightPosition", l + "LAmbient",
+			l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
+
+		//send over light settings to the shader
+		ptempleLights[i].transferSettings(program);
+	}
+
+
 }
 
 Object::~Object()

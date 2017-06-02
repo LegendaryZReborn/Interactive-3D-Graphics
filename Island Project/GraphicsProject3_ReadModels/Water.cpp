@@ -21,8 +21,8 @@ Water::Water(int size, bool hasTexture, string texFile)
 	ctr_box = vec4(size/2.0, 0, size/2.0, 1.0);
 	this->hasTexture = hasTexture;
 
-	mat.Shininess = 42.0;
-	mat.mAmbient = vec3(0.010000, 0.10000, 0.800000);
+	mat.Shininess = 10.0;
+	mat.mAmbient = vec3(0.010000, 0.10000, 0.900000);
 	mat.mDiffuse = vec3(1.000000 ,1.000000, 1.00000);
 	mat.mSpecular = vec3(0.000000, 0.500000, 0.800000);
 	mat.mOpticalDensity = 1.000000;
@@ -45,7 +45,6 @@ void Water::initProgram()
 		amplitude[i] = 1.0 + amplitude[i] * (2.0 - 1.0);		//waveL = 0;
 		speed[i] = (rand() / RAND_MAX);
 		speed[i] = 10.0 + speed[i] * (20.0 - 10.0);
-		//speed[i] = 5;
 		direction[i] = vec2(rand() % 10 - 1, rand() % 10 - 1);
 
 	}

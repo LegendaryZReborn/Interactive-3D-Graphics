@@ -6,6 +6,7 @@
 #include "Material.h"
 #include <map>
 #include <fstream>
+#include <iostream>
 #include "Object.h"
 #include "MultiMeshObj.h"
 
@@ -15,9 +16,11 @@ class Temple
 {
 public:
 	Temple();
-	void load();
+	void load(GLuint program);
 	void draw();
+	void translateTemple(vec3 t);
 	~Temple();
+
 
 private: 
 	void readPlacementFile();
@@ -29,5 +32,6 @@ private:
 	string datPath, fileNamePath;
 	vector<string> objNames;
 	vector <Object> objects;
+	vec3 translate, scale, rotate;
 };
 

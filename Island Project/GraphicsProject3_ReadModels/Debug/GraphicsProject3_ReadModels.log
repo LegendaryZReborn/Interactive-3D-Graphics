@@ -1,5 +1,5 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GraphicsProject3_ReadModels.vcxproj, GraphicsProject6TextureswMultiMesh.vcxproj, GraphicsProject_MaterialandLightingExtension.vcxproj, GraphicsProject_ModelViewerStage.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  main.cpp
+  Temple.cpp
 c:\openglfiles\angelfiles\angel.h(63): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
 c:\openglfiles\angelfiles\mat.h(698): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 c:\openglfiles\angelfiles\mat.h(699): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
@@ -8,27 +8,10 @@ c:\openglfiles\angelfiles\mat.h(721): warning C4244: '=': conversion from 'doubl
 c:\openglfiles\angelfiles\mat.h(723): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 c:\openglfiles\angelfiles\mat.h(726): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
 c:\openglfiles\angelfiles\mat.h(743): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(36): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(57): warning C4305: 'initializing': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(138): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(139): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(144): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(145): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(202): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(203): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(247): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(258): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(263): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(281): warning C4305: '=': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(317): warning C4305: '+=': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(324): warning C4305: '-=': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(398): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(399): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(403): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(404): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(405): warning C4244: '=': conversion from 'int' to 'GLfloat', possible loss of data
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(424): warning C4305: '+=': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(430): warning C4305: '-=': truncation from 'double' to 'GLfloat'
-c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\main.cpp(431): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\temple.cpp(24): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\temple.cpp(36): warning C4018: '<': signed/unsigned mismatch
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\temple.cpp(52): warning C4018: '<': signed/unsigned mismatch
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\temple.cpp(64): warning C4018: '<': signed/unsigned mismatch
+c:\users\cavaughn\documents\visual studio 2015\projects\graphics\island project\graphicsproject3_readmodels\temple.cpp(93): warning C4101: 'c': unreferenced local variable
   GraphicsProject3_ReadModels.vcxproj -> C:\Users\Cavaughn\Documents\Visual Studio 2015\Projects\Graphics\Island Project\Debug\Island Project.exe
   GraphicsProject3_ReadModels.vcxproj -> C:\Users\Cavaughn\Documents\Visual Studio 2015\Projects\Graphics\Island Project\Debug\Island Project.pdb (Full PDB)

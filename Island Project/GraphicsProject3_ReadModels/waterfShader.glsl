@@ -38,7 +38,7 @@ void main()
 	vec3 I = normalize(-position);
 	vec3 R = reflect(I, normalize(normal.xyz));
 
-	fColor = vec4(lightCol, (refractionCoeffs.x + refractionCoeffs.y)/2.0) * (0.3 * texture(reflectTex, R));
+	fColor = vec4(lightCol, (refractionCoeffs.x + refractionCoeffs.y)/2.0) + (0.6 * texture(reflectTex, R));
 	
 } 
 

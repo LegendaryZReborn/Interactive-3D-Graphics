@@ -318,7 +318,7 @@ void MultiMeshObj::readMaterialData(string filename)
 	}
 }
 
-void MultiMeshObj::Load()
+void MultiMeshObj::Load(GLuint program)
 {
 	readData(objFileName);
 	
@@ -326,7 +326,7 @@ void MultiMeshObj::Load()
 	{
 		for (int i = 0; i < subMeshes.size() ; i++)
 		{
-			subMeshes[i].Load();
+			subMeshes[i].Load(program);
 		}
 	}
 }

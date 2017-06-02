@@ -53,9 +53,10 @@ void main()
 	//calculate the Fresnel coefficients
 	rK = calcRefractionCoeffs();
 
+	refractionCoeffs = rK;
 	position = (model_view * v).xyz;
     gl_Position = proj* model_view *v;
-	refractionCoeffs = rK;
+	
 
 
 
@@ -127,6 +128,7 @@ void main()
 	//Transform vertex normal into eye coordinates
 	vec4 n = waveNormal(pos.x, pos.z);
 	vec3 N = normalize(model_view * n).xyz;
+
 	normal = vec4(N, 0.0);
 
 	//calculate the incident and refract angles
