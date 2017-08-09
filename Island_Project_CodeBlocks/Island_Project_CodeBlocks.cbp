@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Island_Project_CodeBlocks" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Island_Project_CodeBlocks" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="C:/Users/legen/Documents/Code Blocks/Island_Project_CodeBlocks/Island_Project" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++14" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Island_Project_CodeBlocks" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-std=c++14" />
+		</Compiler>
+		<Unit filename="Island_Project/Camera.cpp" />
+		<Unit filename="Island_Project/Camera.h" />
+		<Unit filename="Island_Project/CheckError.h" />
+		<Unit filename="Island_Project/DirLight.cpp" />
+		<Unit filename="Island_Project/DirLight.h" />
+		<Unit filename="Island_Project/Files/TempleFileNames.txt" />
+		<Unit filename="Island_Project/Files/firstTerrainNormals.jpg" />
+		<Unit filename="Island_Project/Files/getFIleNamesfromDirectory.py" />
+		<Unit filename="Island_Project/Files/placement.dat" />
+		<Unit filename="Island_Project/GUI.cpp" />
+		<Unit filename="Island_Project/GUI.h" />
+		<Unit filename="Island_Project/InitShader.cpp" />
+		<Unit filename="Island_Project/Material.cpp" />
+		<Unit filename="Island_Project/Material.h" />
+		<Unit filename="Island_Project/MultiMeshObj.cpp" />
+		<Unit filename="Island_Project/MultiMeshObj.h" />
+		<Unit filename="Island_Project/Object.cpp" />
+		<Unit filename="Island_Project/Object.h" />
+		<Unit filename="Island_Project/Objects/CavaughnT.mtl" />
+		<Unit filename="Island_Project/Objects/CavaughnT.obj" />
+		<Unit filename="Island_Project/Objects/GreekTempleFloor.mtl" />
+		<Unit filename="Island_Project/Objects/GreekTempleFloor.obj" />
+		<Unit filename="Island_Project/Objects/GreekTempleMain.mtl" />
+		<Unit filename="Island_Project/Objects/GreekTempleMain.obj" />
+		<Unit filename="Island_Project/Objects/GreekTempleP.mtl" />
+		<Unit filename="Island_Project/Objects/GreekTempleP.obj" />
+		<Unit filename="Island_Project/Objects/GreekTemplePillar.mtl" />
+		<Unit filename="Island_Project/Objects/GreekTemplePillar.obj" />
+		<Unit filename="Island_Project/Objects/GreekTemplePillar2.mtl" />
+		<Unit filename="Island_Project/Objects/GreekTemplePillar2.obj" />
+		<Unit filename="Island_Project/Objects/GreekTempleRoof.mtl" />
+		<Unit filename="Island_Project/Objects/GreekTempleRoof.obj" />
+		<Unit filename="Island_Project/Objects/GreekTempleStairs.mtl" />
+		<Unit filename="Island_Project/Objects/GreekTempleStairs.obj" />
+		<Unit filename="Island_Project/Objects/HelmetHead.mtl" />
+		<Unit filename="Island_Project/Objects/HelmetHead.obj" />
+		<Unit filename="Island_Project/Objects/MSU.mtl" />
+		<Unit filename="Island_Project/Objects/MSU.obj" />
+		<Unit filename="Island_Project/Objects/Mario.mtl" />
+		<Unit filename="Island_Project/Objects/Mario.obj" />
+		<Unit filename="Island_Project/Objects/ONE.mtl" />
+		<Unit filename="Island_Project/Objects/ONE.obj" />
+		<Unit filename="Island_Project/Objects/TempleFull_Pillar.001.mtl" />
+		<Unit filename="Island_Project/Objects/TempleFull_Pillar.001.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Floor1.001.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Floor1.001.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Floor1.Struct.Face.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Floor1.Struct.Face.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Floor1_BackRoom.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Floor1_BackRoom.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Full_Pillar.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Full_Pillar.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Light.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Light.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Pedestal.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Pedestal.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Roof.001.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Roof.001.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Roof.Struct.Face.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Roof.Struct.Face.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Roof.Struct.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Roof.Struct.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Stairs.001.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Stairs.001.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Stairs_Inside.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Stairs_Inside.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_Front.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_Front.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_InsideRm2.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_InsideRm2.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_Left.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_Left.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_Right.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_Right.obj" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_back.mtl" />
+		<Unit filename="Island_Project/Objects/Temple/Wall_back.obj" />
+		<Unit filename="Island_Project/Objects/cube.mtl" />
+		<Unit filename="Island_Project/Objects/cube.obj" />
+		<Unit filename="Island_Project/Objects/cube2.mtl" />
+		<Unit filename="Island_Project/Objects/cube2.obj" />
+		<Unit filename="Island_Project/Objects/cube3.mtl" />
+		<Unit filename="Island_Project/Objects/cube3.obj" />
+		<Unit filename="Island_Project/Objects/cube4tex.mtl" />
+		<Unit filename="Island_Project/Objects/cube4tex.obj" />
+		<Unit filename="Island_Project/Objects/cube6tex.mtl" />
+		<Unit filename="Island_Project/Objects/cube6tex.obj" />
+		<Unit filename="Island_Project/Objects/pillar.dat" />
+		<Unit filename="Island_Project/Objects/quad.mtl" />
+		<Unit filename="Island_Project/Objects/quad.obj" />
+		<Unit filename="Island_Project/PointLight.cpp" />
+		<Unit filename="Island_Project/PointLight.h" />
+		<Unit filename="Island_Project/Skybox.cpp" />
+		<Unit filename="Island_Project/Skybox.h" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_bk.jpg" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_bk.tga" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_dn.jpg" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_dn.tga" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_ft.jpg" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_ft.tga" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_lf.jpg" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_lf.tga" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_rt.jpg" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_rt.tga" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_up.jpg" />
+		<Unit filename="Island_Project/Skybox/NightSky/nightsky_up.tga" />
+		<Unit filename="Island_Project/Skybox/back1.png" />
+		<Unit filename="Island_Project/Skybox/bottom1.png" />
+		<Unit filename="Island_Project/Skybox/front1.png" />
+		<Unit filename="Island_Project/Skybox/left1.png" />
+		<Unit filename="Island_Project/Skybox/right1.png" />
+		<Unit filename="Island_Project/Skybox/sea_bk.JPG" />
+		<Unit filename="Island_Project/Skybox/sea_dn.JPG" />
+		<Unit filename="Island_Project/Skybox/sea_ft.JPG" />
+		<Unit filename="Island_Project/Skybox/sea_lf.JPG" />
+		<Unit filename="Island_Project/Skybox/sea_rt.JPG" />
+		<Unit filename="Island_Project/Skybox/sea_up.JPG" />
+		<Unit filename="Island_Project/Skybox/top1.png" />
+		<Unit filename="Island_Project/Temple.cpp" />
+		<Unit filename="Island_Project/Temple.h" />
+		<Unit filename="Island_Project/Terrain.cpp" />
+		<Unit filename="Island_Project/Terrain.h" />
+		<Unit filename="Island_Project/Terrains/firstTerrain.jpg" />
+		<Unit filename="Island_Project/Terrains/firstTerrain.obj" />
+		<Unit filename="Island_Project/Terrains/firstTerrain2.jpg" />
+		<Unit filename="Island_Project/Terrains/firstTerrain2.pdn" />
+		<Unit filename="Island_Project/Terrains/secondTerrain.jpg" />
+		<Unit filename="Island_Project/Terrains/waterQuad.jpg" />
+		<Unit filename="Island_Project/Textures/AncientGreek.jpg" />
+		<Unit filename="Island_Project/Textures/Dirty_Steel.jpg" />
+		<Unit filename="Island_Project/Textures/MSU.jpg" />
+		<Unit filename="Island_Project/Textures/MSU.png" />
+		<Unit filename="Island_Project/Textures/Mario.jpg" />
+		<Unit filename="Island_Project/Textures/Mario.png" />
+		<Unit filename="Island_Project/Textures/MipMaps/HF/Mip8.hfz" />
+		<Unit filename="Island_Project/Textures/MipMaps/TX/Mip16.png" />
+		<Unit filename="Island_Project/Textures/MipMaps/TX/Mip2.png" />
+		<Unit filename="Island_Project/Textures/MipMaps/TX/Mip32.png" />
+		<Unit filename="Island_Project/Textures/MipMaps/TX/Mip4.png" />
+		<Unit filename="Island_Project/Textures/MipMaps/TX/Mip64.png" />
+		<Unit filename="Island_Project/Textures/MipMaps/TX/Mip8.png" />
+		<Unit filename="Island_Project/Textures/ONE.jpg" />
+		<Unit filename="Island_Project/Textures/ONE.png" />
+		<Unit filename="Island_Project/Textures/RoyaSS01.jpg" />
+		<Unit filename="Island_Project/Textures/RoyaSS01.tga" />
+		<Unit filename="Island_Project/Textures/Temple_Symbol.jpg" />
+		<Unit filename="Island_Project/Textures/Yuki_Yuna.jpg" />
+		<Unit filename="Island_Project/Textures/bike_d.png" />
+		<Unit filename="Island_Project/Textures/brick-texture.jpg" />
+		<Unit filename="Island_Project/Textures/coorrust.jpg" />
+		<Unit filename="Island_Project/Textures/copperpan.jpg" />
+		<Unit filename="Island_Project/Textures/corsteel.jpg" />
+		<Unit filename="Island_Project/Textures/crying_misaka.jpg" />
+		<Unit filename="Island_Project/Textures/cubetexture.png" />
+		<Unit filename="Island_Project/Textures/cubetexture2.png" />
+		<Unit filename="Island_Project/Textures/detail.jpg" />
+		<Unit filename="Island_Project/Textures/detail2.jpg" />
+		<Unit filename="Island_Project/Textures/firstT summary.html" />
+		<Unit filename="Island_Project/Textures/firstT.def.xml" />
+		<Unit filename="Island_Project/Textures/firstT.proj" />
+		<Unit filename="Island_Project/Textures/firstT_AM.amf.gz" />
+		<Unit filename="Island_Project/Textures/firstT_DM.dmf" />
+		<Unit filename="Island_Project/Textures/firstT_HF.hfz" />
+		<Unit filename="Island_Project/Textures/firstT_LM.jpg" />
+		<Unit filename="Island_Project/Textures/firstT_SH.png" />
+		<Unit filename="Island_Project/Textures/firstT_SpecLM.png" />
+		<Unit filename="Island_Project/Textures/firstT_TN.png" />
+		<Unit filename="Island_Project/Textures/firstT_TX.jpg" />
+		<Unit filename="Island_Project/Textures/firstT_WBL.xml" />
+		<Unit filename="Island_Project/Textures/firstT_WM.wmf" />
+		<Unit filename="Island_Project/Textures/firstTerrain.jpg" />
+		<Unit filename="Island_Project/Textures/firstTerrain2.jpg" />
+		<Unit filename="Island_Project/Textures/greek_pillar.jpg" />
+		<Unit filename="Island_Project/Textures/greek_pillar_white_stone_1_20131015_1890933152.jpg" />
+		<Unit filename="Island_Project/Textures/medalion_grp.png" />
+		<Unit filename="Island_Project/Textures/msulogo.jpg" />
+		<Unit filename="Island_Project/Textures/msulogo.png" />
+		<Unit filename="Island_Project/Textures/oxmetel.jpg" />
+		<Unit filename="Island_Project/Textures/rusty.jpg" />
+		<Unit filename="Island_Project/Textures/sample.png" />
+		<Unit filename="Island_Project/Textures/secondTerrain.jpg" />
+		<Unit filename="Island_Project/Textures/tartan.jpg" />
+		<Unit filename="Island_Project/Textures/temple-wall.jpg" />
+		<Unit filename="Island_Project/Textures/tex_0.jpg" />
+		<Unit filename="Island_Project/Textures/yukiyunayuusha.jpg" />
+		<Unit filename="Island_Project/Water.cpp" />
+		<Unit filename="Island_Project/Water.h" />
+		<Unit filename="Island_Project/WaterFrameBuffers.cpp" />
+		<Unit filename="Island_Project/WaterFrameBuffers.h" />
+		<Unit filename="Island_Project/freeglut.dll" />
+		<Unit filename="Island_Project/fshader_a4.glsl" />
+		<Unit filename="Island_Project/fshader_sky.glsl" />
+		<Unit filename="Island_Project/fshader_terrain.glsl" />
+		<Unit filename="Island_Project/glew32.dll" />
+		<Unit filename="Island_Project/main.cpp" />
+		<Unit filename="Island_Project/pillar.dat" />
+		<Unit filename="Island_Project/vshader2.glsl" />
+		<Unit filename="Island_Project/vshader_a4.glsl" />
+		<Unit filename="Island_Project/vshader_sky.glsl" />
+		<Unit filename="Island_Project/vshader_terrain.glsl" />
+		<Unit filename="Island_Project/waterfShader.glsl" />
+		<Unit filename="Island_Project/watervShader.glsl" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
