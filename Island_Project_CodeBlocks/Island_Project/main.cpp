@@ -106,7 +106,7 @@ main(int argc, char **argv)
 	glutInitWindowSize(512, 512);
 	glutInitContextVersion(3, 2);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
-	glutCreateWindow("Model Viewer");
+	glutCreateWindow("Cavaughn Browne - Island Temple Project");
 
 	glewExperimental = GL_TRUE;
 	glewInit();
@@ -139,12 +139,10 @@ init()
     program_terrain =InitShader("vshader_terrain.glsl", "fshader_terrain.glsl");
 	// Load shaders and use the resulting shader program
 	vec3 lightAmbient = vec3(1.0, 1.0, 1.0);
-	vec3 lightDiffuse = vec3(0.5, 0.5, 1.5);
+	vec3 lightDiffuse = vec3(1.0, 1.0, 1.2);
 	vec3 lightSpecular = vec3(1.0, 1.0, 1.0);
 
 	Lights.push_back(DirLight(vec4(100.0, 100.0, 15.0, 0.0), lightAmbient, lightDiffuse, lightSpecular));
-
-
 
 	//Inializes/Loads the skybox
 	sky.Load();
