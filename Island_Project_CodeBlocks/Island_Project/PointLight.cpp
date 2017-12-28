@@ -1,7 +1,5 @@
 #include "PointLight.h"
 
-extern mat4 model_view;
-
 PointLight::PointLight() : DirLight()
 {
 

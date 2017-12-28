@@ -8,6 +8,7 @@ uniform sampler2D tex;
 uniform  bool mapText;
 uniform float t;
 uniform mat4 mV;
+uniform mat3 normalMatrix;
 
 //Lighting and Materials
 uniform vec3 MAmbient, MDiffuse, MSpecular; // Material settings
@@ -66,8 +67,6 @@ void main()
 	{
 		lightCol += calcDirLight(lights[i], position, E, normal);
 	}
-
-
 
 	for (int i = 0; i < NUM_PLIGHTS; i++)
 	{

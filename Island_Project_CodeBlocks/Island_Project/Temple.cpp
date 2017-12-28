@@ -79,7 +79,7 @@ void Temple::draw()
                     ptempleLights[li].transferSettings(program);
                     li++;
                 }
-				if (checkFrustrum(objects[x].provideAABB()))
+				if (checkFrustrum(objects[x].provideBoundingBox()))
 					objects[x].Draw();
 
 		}

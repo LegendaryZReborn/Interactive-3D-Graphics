@@ -8,7 +8,6 @@ class DirLight
 public:
 	DirLight();
 	DirLight(vec4 pos, vec3 a, vec3 d, vec3 s);
-
 	void init(GLuint &program, string pos_Loc, string a_Loc, string d_Loc, string s_Loc);
 	void transferSettings(GLuint& program);
 	void setPosition(vec4 p);

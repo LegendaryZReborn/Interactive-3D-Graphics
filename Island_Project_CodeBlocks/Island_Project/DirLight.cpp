@@ -1,6 +1,6 @@
 #include "DirLight.h"
-
-extern mat4 model_view;
+#include <iostream>
+extern mat4 model_view, proj;
 
 DirLight::DirLight()
 {
@@ -29,7 +29,7 @@ void DirLight::transferSettings(GLuint& program)
 {
 	glUseProgram(program);
     vec4 lightPos2 = model_view * translate * scale * rotate * lightPosition;
-	//send over light settings to the shader
+
 	glUniform3fv(LAmbientLoc, 1, lightAmbient);
 	glUniform3fv(LDiffuseLoc, 1, lightDiffuse);
 	glUniform3fv(LSpecularLoc, 1, lightSpecular);

@@ -8,20 +8,9 @@
 
 extern mat4 model_view;
 extern vector<DirLight> Lights;
-//Lights in the temple
 extern vector<PointLight> ptempleLights;
 extern mat4 proj;
 
-Object::Object()
-{
-	numVertices = 0;
-	numNormals = 0;
-	numIndicies = 0;
-	objFileName = "";
-	ctr_box = vec4(0, 0, 0, 1);
-
-
-}
 
 Object::Object(string filename, int numV, int numNorm, int numInd, int numText, bool texture, vector<vec4>& mVerts,
 	vector<vec4>& mNormL, vector<vec2>& mTex, GLfloat bMax, vec4 ctrBox, Material mat1)
@@ -65,8 +54,8 @@ void Object::Load(GLuint program)
 	this->program = program;
 	glUseProgram(program);
 
-	Init();
-
+    getShaderLocations();
+	transferMatSettings();
 
 	cout << "Loading Object " << objFileName << endl;
 	//print out number data
@@ -163,12 +152,6 @@ void Object::Load(GLuint program)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 
-}
-
-void Object::Init()
-{
-	getShaderLocations();
-	transferMatSettings();
 }
 
 void Object::Draw()
@@ -510,7 +493,7 @@ vec4 Object::provideMaxPoint()
 	return translate * scale * rotate *boxMaxP;
 }
 
-vector<vec4> Object::provideAABB()
+vector<vec4> Object::provideBoundingBox()
 {
 	vector<vec4> newAABB;
 

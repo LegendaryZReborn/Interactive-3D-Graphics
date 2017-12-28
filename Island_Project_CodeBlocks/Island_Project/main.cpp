@@ -12,7 +12,6 @@
 #include "Terrain.h"
 #include "Skybox.h"
 #include "Camera.h"
-#include "WaterFrameBuffers.h"
 #include "DirLight.h"
 #include "PointLight.h"
 #include <fstream>
@@ -33,24 +32,21 @@
 enum { Xaxis = 0, Yaxis = 1, Zaxis = 2, NumAxes = 3 };
 int      Axis = Xaxis;
 
-GLfloat aspect = 16.0 / 9.0, fov = 45.0, w, h;
+GLfloat fov = 45.0, aspect = 1.0;
 GLfloat deltaTime = 0.0;
 GLfloat lastframe = 0.0;
 GLfloat frame = 0.0, timeC, timebase = 0.0, fps;
 mat4 model_view, proj;
 
 //Camera
-Camera camera(vec4(-7.0, 60.0, 45.0, 1.0), vec4(0.0, 0.0, -1.0, 0.0),
+Camera camera(vec4(0.0, 0.0, 10.0, 1.0), vec4(0.0, 0.0, -1.0, 0.0),
 	vec4(0.0, 1.0, 0.0, 1.0), 0.0, 0.5);
-vec4 eye = camera.getPosition();
-vec4 at = camera.getAt();
-vec4 up = camera.getUp();
-GLfloat currentCamSpeed = 0.001;
+vec4 eye, at, up;
+GLfloat currentCamSpeed = 0.1;
 
-GLfloat waveL = 0.0;
+//Other
 bool rotateT = false, firstMouse = true;
-GLfloat old_x, old_y;
-GLfloat yaw = 0, pitch = 0;
+GLfloat old_x, old_y, yaw = 0, pitch = 0, waveL = 0.0;
 
 //Global Light sources for everything in the scene
 vector<DirLight> Lights;
@@ -58,39 +54,28 @@ vector<PointLight> ptempleLights;
 
 //programs
 GLuint program_object, program_water, program_terrain;
+
 //Scene objects
 Temple temple;
 Terrain t("firstTerrain2.jpg", true);
 Skybox sky;
 Water waterQuad(1024, false, "");
+MultiMeshObj obj("ONE.obj");
 
 // OpenGL initialization
 void init();
-
 void display(void);
-
 void reshape(int width, int height);
-
 void idle(void);
-
-void renderScene();
-
+void drawScene();
 void calculateDeltaTime();
-
 void displayFrameRate();
-
 bool checkFrustrum(vector<vec4> bBPoints);
-
 void transferLightsToShader();
-
 void keyboard(unsigned char key, int x, int y);
-
 void mouse(int button, int state, int x, int y);
-
 void calcYawPitch(float oldX, float newX, float oldY, float newY);
-
 void mouseMove(int x, int y);
-
 void mouseWheelScroll(int button, int dir, int x, int y);
 
 
@@ -99,19 +84,15 @@ void mouseWheelScroll(int button, int dir, int x, int y);
 int
 main(int argc, char **argv)
 {
-	w = 512;
-	h = 512;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(512, 512);
 	glutInitContextVersion(3, 2);
 	glutInitContextProfile(GLUT_CORE_PROFILE);
-	glutCreateWindow("Cavaughn Browne - Island Temple Project");
+	glutCreateWindow("Cavaughn Browne - Island Temple");
 
 	glewExperimental = GL_TRUE;
 	glewInit();
-
-
 
 	init();
 	glutDisplayFunc(display);
@@ -134,28 +115,26 @@ main(int argc, char **argv)
 void
 init()
 {
+    //Initialize the shaders to be used
 	program_object = InitShader("vshader2.glsl", "fshader_a4.glsl");
     program_water = InitShader("watervShader.glsl", "waterfShader.glsl");
     program_terrain =InitShader("vshader_terrain.glsl", "fshader_terrain.glsl");
-	// Load shaders and use the resulting shader program
+
 	vec3 lightAmbient = vec3(1.0, 1.0, 1.0);
-	vec3 lightDiffuse = vec3(1.0, 1.0, 1.2);
+	vec3 lightDiffuse = vec3(1.0, 1.0, 1.0);
 	vec3 lightSpecular = vec3(1.0, 1.0, 1.0);
+	vec4 position = vec4(-10.0, 15.0, 0.0, 1.0);
+    DirLight light = DirLight(position, lightAmbient, lightDiffuse, lightSpecular);
+	Lights.push_back(light);
 
-	Lights.push_back(DirLight(vec4(100.0, 100.0, 15.0, 0.0), lightAmbient, lightDiffuse, lightSpecular));
+//	sky.Load();	                     //Loads the skybox
+//	waterQuad.load(program_water);   //Load the water quad
+//	waterQuad.setReflectionTex(sky.sendSkyTex());
+//	t.Load(program_terrain); 	    //Loads the terrain
+    temple.load(program_object);    //Loads the temple
+    obj.Load(program_object);
+	 transferLightsToShader();
 
-	//Inializes/Loads the skybox
-	sky.Load();
-
-	//Load the water quad
-	waterQuad.load(program_water);
-	waterQuad.setReflectionTex(sky.sendSkyTex());
-
-	//Loads the terrain
-	t.Load(program_terrain);
-	temple.load(program_object);
-
-    transferLightsToShader();
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -171,7 +150,7 @@ display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	calculateDeltaTime();
-	renderScene();
+	drawScene();
 	displayFrameRate();
 	glutSwapBuffers();
 }
@@ -179,17 +158,16 @@ display(void)
 //----------------------------------------------------------------------------
 void reshape(int width, int height)
 {
-	GLfloat aspect;
 	GLfloat zNear, zFar;
 	glViewport(0, 0, width, height);
 	aspect = GLfloat(width) / GLfloat(height);
 	zNear = 0.01;
 	zFar = 1000;
+	fov = 45.0;
 
 	proj = Perspective(fov, aspect, zNear, zFar);
 
-	w = width;
-	h = height;
+
 }
 //----------------------------------------------------------------------------
 
@@ -202,28 +180,29 @@ idle(void)
 
 
 //----------------------------------------------------------------------------
-void renderScene()
+void drawScene()
 {
 
-	mat4 translationM;
 	mat4 scale = Scale(vec3(1.0, 1.0, 1.0));
-
-
 	eye = camera.getPosition();
 	at = eye + camera.getAt();
 	up = camera.getUp();
 
-
 	model_view = LookAt(eye, at, up);
+    transferLightsToShader();
 
+    GLuint NormalViewLoc = glGetUniformLocation(program_object, "normalMatrix");
 
-	sky.Draw();
-	//Draw terrain
-	t.Draw();
+    mat3 normalMatrix = Normal(model_view);
+    glUniformMatrix3fv(NormalViewLoc, 1, GL_TRUE, normalMatrix);
+
+//	sky.Draw();
+//	t.Draw();
 	temple.translateTemple(vec3(-7.0, 61.5, 20.0));
 	temple.draw();
-	waterQuad.translateWater(vec3(0.0, 10.0, 0.0));
-	waterQuad.draw();
+//	waterQuad.translateWater(vec3(0.0, 10.0, 0.0));
+//	waterQuad.draw();
+    obj.Draw();
 }
 
 //----------------------------------------q------------------------------------
@@ -311,17 +290,17 @@ void transferLightsToShader()
 
     //Transfer the directional and point lights to program_object
     string l;
-	//send each member of each light to its appropriate place in the shader
 	l = "lights[0].";
 
 	for (int i = 0; i < Lights.size(); i++)
 	{
+	    //modify the index number in l to character version of i
 		l[7] = i + '0';
 
         Lights[i].init(program_object, l + "LightPosition", l + "LAmbient",
                     l + "LDiffuse", l + "LSpecular");
 
-		//send over light settings to the shader
+		//send over light settings to the shaders of the specified program
 		Lights[i].transferSettings(program_object);
 	}
 
@@ -329,11 +308,12 @@ void transferLightsToShader()
 
 	for (int i = 0; i < ptempleLights.size(); i++)
 	{
+        //modify the index number in l to character version of i
 		l[7] = i + '0';
 
         ptempleLights[i].init(program_object, l + "LightPosition", l + "LAmbient",
 			l + "LDiffuse", l + "LSpecular", l + "constant", l + "linear", l + "quadratic");
-		//send over light settings to the shader
+		//send over light settings to the shaderS
 		ptempleLights[i].transferSettings(program_object);
 	}
 
