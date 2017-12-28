@@ -1,6 +1,6 @@
 //Cavaughn Browne
 #include "Object.h"
-#include <SOIL.h>
+#include <Soil/SOIL.h>
 #include <climits>
 #include <fstream>
 #include "DirLight.h"

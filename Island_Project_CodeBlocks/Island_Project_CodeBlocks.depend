@@ -145,27 +145,27 @@
 1497570445 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\camera.cpp
 	"Camera.h"
 
-1497872950 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\camera.h
-	"Angel.h"
+1514439052 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\camera.h
+	"Angel/Angel.h"
 
 1514347725 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\dirlight.cpp
 	"DirLight.h"
 	<iostream>
 
-1514316393 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\dirlight.h
-	"Angel.h"
+1514439483 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\dirlight.h
+	"Angel/Angel.h"
 
 1497570445 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\gui.cpp
 	"GUI.h"
 
-1497570445 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\gui.h
-	"Angel.h"
+1514439484 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\gui.h
+	"Angel/Angel.h"
 	<vector>
 
-1497601059 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\initshader.cpp
-	"Angel.h"
+1514439484 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\initshader.cpp
+	"Angel/Angel.h"
 
-1514347665 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\main.cpp
+1514441865 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\main.cpp
 	"Object.h"
 	"MultiMeshObj.h"
 	"Terrain.h"
@@ -183,52 +183,52 @@
 	"Temple.h"
 	<algorithm>
 
-1514315136 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\object.h
+1514439484 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\object.h
 	<string>
 	<vector>
-	"Angel.h"
+	"Angel/Angel.h"
 	"Material.h"
 	<algorithm>
 
-1497570445 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\material.h
-	"Angel.h"
+1514439481 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\material.h
+	"Angel/Angel.h"
 	<string>
 
-1514314978 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\multimeshobj.h
+1514439484 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\multimeshobj.h
 	<string>
 	<vector>
 	"Object.h"
-	"Angel.h"
+	"Angel/Angel.h"
 	"Material.h"
 	<map>
 
-1497872692 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\terrain.h
+1514439484 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\terrain.h
 	<string>
 	<vector>
-	"Angel.h"
+	"Angel/Angel.h"
 	"Material.h"
 
-1497570446 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\skybox.h
-	"Angel.h"
-	"soil.h"
+1514439532 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\skybox.h
+	"Angel/Angel.h"
+	"Soil/soil.h"
 
-1497570446 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\waterframebuffers.h
+1514439485 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\waterframebuffers.h
 	<iostream>
-	"Angel.h"
+	"Angel/Angel.h"
 
 1497595667 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\pointlight.h
 	"DirLight.h"
 
-1497872396 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\water.h
+1514439484 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\water.h
 	<string>
 	<vector>
-	"Angel.h"
+	"Angel/Angel.h"
 	"Material.h"
 
-1497995019 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\temple.h
+1514439485 c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\temple.h
 	<string>
 	<vector>
-	"Angel.h"
+	"Angel/Angel.h"
 	"Material.h"
 	<map>
 	<fstream>
@@ -243,9 +243,9 @@
 	"MultiMeshObj.h"
 	<fstream>
 
-1514351183 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\object.cpp
+1514439551 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\object.cpp
 	"Object.h"
-	<SOIL.h>
+	<Soil/SOIL.h>
 	<climits>
 	<fstream>
 	"DirLight.h"
@@ -254,24 +254,24 @@
 1514316578 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\pointlight.cpp
 	"PointLight.h"
 
-1497629186 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\skybox.cpp
+1514439484 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\skybox.cpp
 	"Skybox.h"
-	"Angel.h"
+	"Angel/Angel.h"
 
 1514312873 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\temple.cpp
 	"Temple.h"
 	"PointLight.h"
 
-1497989221 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\terrain.cpp
+1514439564 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\terrain.cpp
 	"Terrain.h"
-	<SOIL.h>
+	<Soil/SOIL.h>
 	<fstream>
 	"DirLight.h"
 	"PointLight.h"
 
-1497872143 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\water.cpp
+1514439573 source:c:\users\legen\documents\github\interactive-3d-graphics\island_project_codeblocks\island_project\water.cpp
 	"Water.h"
-	"Soil.h"
+	"Soil/Soil.h"
 	"DirLight.h"
 	<random>
 	<time.h>

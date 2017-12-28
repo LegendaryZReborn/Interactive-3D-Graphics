@@ -1,7 +1,7 @@
 
 //Cavaughn Browne
 #include "Terrain.h"
-#include <SOIL.h>
+#include <Soil/SOIL.h>
 #include <fstream>
 #include "DirLight.h"
 #include "PointLight.h"

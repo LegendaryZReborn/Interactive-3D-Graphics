@@ -2,34 +2,29 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="Island_Project\waterfShader.glsl" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Temple.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="416" topLine="39" />
+			<Cursor1 position="77" topLine="4" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\DirLight.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\watervShader.glsl" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="799" topLine="11" />
+			<Cursor1 position="0" topLine="30" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\Temple.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Object.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1973" topLine="59" />
+			<Cursor1 position="55" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\Water.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Skybox.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="93" topLine="4" />
+			<Cursor1 position="44" topLine="1" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\MultiMeshObj.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Skybox.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7413" topLine="274" />
-		</Cursor>
-	</File>
-	<File name="Island_Project\main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5274" topLine="128" />
+			<Cursor1 position="55" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Island_Project\PointLight.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -37,49 +32,29 @@
 			<Cursor1 position="1" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\DirLight.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Camera.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="255" topLine="0" />
+			<Cursor1 position="40" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\fshader_a4.glsl" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Temple.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1205" topLine="0" />
+			<Cursor1 position="1973" topLine="59" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\DirLight.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="37" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\DirLight.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="352" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Island_Project\Material.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Island_Project\Camera.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="733" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Island_Project\InitShader.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="119" topLine="42" />
-		</Cursor>
-	</File>
-	<File name="Island_Project\Terrain.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="896" topLine="234" />
-		</Cursor>
-	</File>
-	<File name="Island_Project\Terrain.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1171" topLine="34" />
-		</Cursor>
-	</File>
-	<File name="Island_Project\Object.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1787" topLine="71" />
-		</Cursor>
-	</File>
-	<File name="Island_Project\Water.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1570" topLine="54" />
+			<Cursor1 position="37" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Island_Project\vshader2.glsl" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -87,14 +62,29 @@
 			<Cursor1 position="251" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="Island_Project\Water.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="35" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="Island_Project\vshader_a4.glsl" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="0" topLine="21" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\Object.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Terrain.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1994" topLine="46" />
+			<Cursor1 position="58" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\MultiMeshObj.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="96" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\waterfShader.glsl" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="416" topLine="39" />
 		</Cursor>
 	</File>
 	<File name="Island_Project\PointLight.cpp" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -102,9 +92,14 @@
 			<Cursor1 position="721" topLine="9" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\Temple.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\vshader_terrain.glsl" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="668" topLine="6" />
+			<Cursor1 position="158" topLine="131" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\Object.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="92" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Island_Project\fshader_terrain.glsl" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -112,24 +107,39 @@
 			<Cursor1 position="245" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\Skybox.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\MultiMeshObj.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4035" topLine="106" />
+			<Cursor1 position="7413" topLine="274" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\vshader_terrain.glsl" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Terrain.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="158" topLine="131" />
+			<Cursor1 position="94" topLine="4" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\MultiMeshObj.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="210" topLine="4" />
+			<Cursor1 position="5406" topLine="176" />
 		</Cursor>
 	</File>
-	<File name="Island_Project\watervShader.glsl" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Island_Project\Water.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="30" />
+			<Cursor1 position="75" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\WaterFrameBuffers.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="58" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\InitShader.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="42" topLine="1" />
+		</Cursor>
+	</File>
+	<File name="Island_Project\fshader_a4.glsl" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1205" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

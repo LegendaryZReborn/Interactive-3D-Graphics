@@ -5,6 +5,7 @@
 //Press I/O to increase/ decrease frequency of water.
 //Mouse scroll to increase and decrease speed.
 #define __USE_MINGW_ANSI_STDIO 0
+
 #pragma once
 
 #include "Object.h"
@@ -23,6 +24,7 @@
 #include "Water.h"
 #include "Temple.h"
 #include <algorithm>
+
 
 
 #define SPACEBAR 32
@@ -123,14 +125,14 @@ init()
 	vec3 lightAmbient = vec3(1.0, 1.0, 1.0);
 	vec3 lightDiffuse = vec3(1.0, 1.0, 1.0);
 	vec3 lightSpecular = vec3(1.0, 1.0, 1.0);
-	vec4 position = vec4(-10.0, 15.0, 0.0, 1.0);
+	vec4 position = vec4(-10.0, 100.0, 0.0, 0.0);
     DirLight light = DirLight(position, lightAmbient, lightDiffuse, lightSpecular);
 	Lights.push_back(light);
 
-//	sky.Load();	                     //Loads the skybox
-//	waterQuad.load(program_water);   //Load the water quad
-//	waterQuad.setReflectionTex(sky.sendSkyTex());
-//	t.Load(program_terrain); 	    //Loads the terrain
+	sky.Load();	                     //Loads the skybox
+	waterQuad.load(program_water);   //Load the water quad
+	waterQuad.setReflectionTex(sky.sendSkyTex());
+	t.Load(program_terrain); 	    //Loads the terrain
     temple.load(program_object);    //Loads the temple
     obj.Load(program_object);
 	 transferLightsToShader();
@@ -196,12 +198,13 @@ void drawScene()
     mat3 normalMatrix = Normal(model_view);
     glUniformMatrix3fv(NormalViewLoc, 1, GL_TRUE, normalMatrix);
 
-//	sky.Draw();
-//	t.Draw();
-	temple.translateTemple(vec3(-7.0, 61.5, 20.0));
-	temple.draw();
-//	waterQuad.translateWater(vec3(0.0, 10.0, 0.0));
-//	waterQuad.draw();
+    sky.Draw();
+    t.Draw();
+    temple.translateTemple(vec3(-7.0, 61.5, 20.0));
+    temple.draw();
+    waterQuad.translateWater(vec3(0.0, 10.0, 0.0));
+    waterQuad.draw();
+    obj.translateObj(vec3(-7.0, 66.5, 20.0));
     obj.Draw();
 }
 

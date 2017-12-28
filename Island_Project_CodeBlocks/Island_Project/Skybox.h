@@ -1,6 +1,6 @@
 #pragma once
-#include "Angel.h"
-#include "soil.h"
+#include "Angel/Angel.h"
+#include "Soil/soil.h"
 class Skybox
 {
 	GLuint vao_cube;

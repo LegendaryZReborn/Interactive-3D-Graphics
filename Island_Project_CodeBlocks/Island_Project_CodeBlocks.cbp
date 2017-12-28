@@ -8,7 +8,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/Island_Project_CodeBlocks" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="C:/Users/legen/Documents/Code Blocks/Island_Project_CodeBlocks/Island_Project" />
+				<Option working_dir="C:/Users/legen/Documents/GitHub/Interactive-3D-Graphics/Island_Project_CodeBlocks/Island_Project" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,6 +16,9 @@
 					<Add option="-std=c++14" />
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add directory="C:/OpenGL/Dependencies" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/Island_Project_CodeBlocks" prefix_auto="1" extension_auto="1" />
@@ -34,6 +37,15 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++14" />
 		</Compiler>
+		<Linker>
+			<Add library="C:/OpenGL/Dependencies/lib/libglew32.a" />
+			<Add library="C:/OpenGL/Dependencies/lib/libglew32.dll.a" />
+			<Add library="C:/OpenGL/Dependencies/lib/libfreeglut.a" />
+			<Add library="C:/OpenGL/Dependencies/lib/libSOIL.a" />
+			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add directory="C:/OpenGL/Dependencies" />
+		</Linker>
 		<Unit filename="Island_Project/Camera.cpp" />
 		<Unit filename="Island_Project/Camera.h" />
 		<Unit filename="Island_Project/CheckError.h" />
@@ -43,8 +55,6 @@
 		<Unit filename="Island_Project/Files/firstTerrainNormals.jpg" />
 		<Unit filename="Island_Project/Files/getFIleNamesfromDirectory.py" />
 		<Unit filename="Island_Project/Files/placement.dat" />
-		<Unit filename="Island_Project/GUI.cpp" />
-		<Unit filename="Island_Project/GUI.h" />
 		<Unit filename="Island_Project/InitShader.cpp" />
 		<Unit filename="Island_Project/Material.cpp" />
 		<Unit filename="Island_Project/Material.h" />
