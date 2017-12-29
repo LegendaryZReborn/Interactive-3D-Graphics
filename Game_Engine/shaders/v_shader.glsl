@@ -1,0 +1,10 @@
+#version 430 core
+
+layout(location = 0) in vec3 vPosition;
+
+out vec4 color;
+
+void main(){
+    color = vec4(vPosition.x + 0.5, 20, vPosition.y + 0.5, 1.0);
+    gl_Position =  vec4(vPosition, 1.0);
+}

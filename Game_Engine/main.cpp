@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "Loader.h"
 #include "SimpleModel.h"
+#include "Shader.h"
 
 using namespace std;
 
@@ -55,6 +56,7 @@ int main(void){
 
     Loader loader;
     SimpleModel cube = loader.loadToVao(squareVerts);
+    Shader shader("shaders/v_shader.glsl", "shaders/f_shader.glsl");
 
     /*Loop while the window hasn't been close*/
     while(!glfwWindowShouldClose(window)){
@@ -62,11 +64,15 @@ int main(void){
         glClearColor(1.0, 0.0, 0.0, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        shader.startShader();
+         glUniform1f(1, (GLfloat)glfwGetTime());
+        /*Render*/
         glBindVertexArray(cube.GetvaoID());
         glEnableVertexAttribArray(0);
         glDrawArrays(GL_TRIANGLES, 0, cube.GetnumVertices());
         glDisableVertexAttribArray(0);
         glBindVertexArray(0);
+        shader.stopShader();
 
         /*Swap front and back buffers after rendering to back for seamless image*/
         glfwSwapBuffers(window);

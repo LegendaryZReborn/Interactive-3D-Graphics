@@ -5,8 +5,7 @@
 #include <GL/gl.h>
 
 
-class SimpleModel
-{
+class SimpleModel{
     public:
         SimpleModel();
         SimpleModel(GLuint id, int numVert);

@@ -15,6 +15,7 @@
 					<Add option="-g" />
 					<Add directory="C:/OpenGL/Dependencies" />
 					<Add directory="C:/Users/legen/Documents/Code Blocks/Game_Engine/helpful_classes" />
+					<Add directory="shader_classes" />
 				</Compiler>
 				<Linker>
 					<Add library="C:/OpenGL/Dependencies/lib/libglfw3dll.a" />
@@ -33,6 +34,7 @@
 					<Add option="-O2" />
 					<Add directory="headers" />
 					<Add directory="helper_classes" />
+					<Add directory="shader_classes" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -52,6 +54,8 @@
 		<Unit filename="helpful_classes/SimpleModel.cpp" />
 		<Unit filename="helpful_classes/SimpleModel.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="shader_classes/Shader.cpp" />
+		<Unit filename="shader_classes/Shader.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

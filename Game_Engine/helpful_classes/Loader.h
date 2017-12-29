@@ -5,8 +5,7 @@
 
 using namespace std;
 
-class Loader
-{
+class Loader{
     public:
         Loader();
         ~Loader();

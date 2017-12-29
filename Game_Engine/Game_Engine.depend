@@ -79,21 +79,32 @@
 1514418062 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\loader.cpp
 	"Loader.h"
 
-1514418005 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\loader.h
+1514520252 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\loader.h
 	"SimpleModel.h"
 	<vector>
 
-1514420194 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\simplemodel.h
+1514520252 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\simplemodel.h
 	<GL/glew.h>
 	<GL/gl.h>
 
 1514417374 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\simplemodel.cpp
 	"SimpleModel.h"
 
-1514433376 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\main.cpp
+1514529241 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\main.cpp
 	<iostream>
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	"Loader.h"
 	"SimpleModel.h"
+	"Shader.h"
+
+1514527645 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\shader_classes\shader.cpp
+	"Shader.h"
+
+1514524618 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\shader_classes\shader.h
+	<GL/glew.h>
+	<GL/gl.h>
+	<string>
+	<fstream>
+	<iostream>
 
