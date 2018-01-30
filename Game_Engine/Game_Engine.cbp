@@ -8,6 +8,7 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/Game_Engine" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../Game_Engine" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,6 +17,7 @@
 					<Add directory="C:/OpenGL/Dependencies" />
 					<Add directory="C:/Users/legen/Documents/Code Blocks/Game_Engine/helpful_classes" />
 					<Add directory="shader_classes" />
+					<Add directory="helpful_classes" />
 				</Compiler>
 				<Linker>
 					<Add library="C:/OpenGL/Dependencies/lib/libglfw3dll.a" />
@@ -35,6 +37,7 @@
 					<Add directory="headers" />
 					<Add directory="helper_classes" />
 					<Add directory="shader_classes" />
+					<Add directory="helpful_classes" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -43,8 +46,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="shader_classes" />
+			<Add directory="helpful_classes" />
 		</Compiler>
 		<Linker>
+			<Add library="C:/OpenGL/Dependencies/lib/libSOIL.a" />
 			<Add library="opengl32" />
 			<Add library="glu32" />
 			<Add library="gdi32" />
@@ -53,6 +59,8 @@
 		<Unit filename="helpful_classes/Loader.h" />
 		<Unit filename="helpful_classes/SimpleModel.cpp" />
 		<Unit filename="helpful_classes/SimpleModel.h" />
+		<Unit filename="helpful_classes/TexturedModel.cpp" />
+		<Unit filename="helpful_classes/TexturedModel.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="shader_classes/Shader.cpp" />
 		<Unit filename="shader_classes/Shader.h" />

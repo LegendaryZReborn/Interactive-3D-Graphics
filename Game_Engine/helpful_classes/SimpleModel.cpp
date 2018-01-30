@@ -4,8 +4,8 @@ SimpleModel::SimpleModel(){
 
 }
 
-SimpleModel::SimpleModel(GLuint id, int numVert){
-    vaoID = id;
+SimpleModel::SimpleModel(GLuint vaoID, int numVert){
+    this->vaoID = vaoID;
     numVertices = numVert;
 }
 

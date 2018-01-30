@@ -8,7 +8,7 @@
 class SimpleModel{
     public:
         SimpleModel();
-        SimpleModel(GLuint id, int numVert);
+        SimpleModel(GLuint vaoID, int numVert);
         ~SimpleModel();
 
         int GetvaoID();
@@ -17,8 +17,6 @@ class SimpleModel{
         void SetnumVertices(int val);
 
     protected:
-
-    private:
         int vaoID;
         int numVertices;
 };

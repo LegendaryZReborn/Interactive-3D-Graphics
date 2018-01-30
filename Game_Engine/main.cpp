@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "Loader.h"
 #include "SimpleModel.h"
+#include "TexturedModel.h"
 #include "Shader.h"
 
 using namespace std;
@@ -43,7 +44,7 @@ int main(void){
     /*Sets the callback function for key input events*/
     glfwSetKeyCallback(window, handleKeyInput);
 
-    vector<float> squareVerts = {
+    vector<float> rectVerts = {
         //Left-bottom triangle
         -0.5, 0.5, 0,
         -0.5, -0.5, 0,
@@ -54,8 +55,21 @@ int main(void){
         -0.5, 0.5, 0
     };
 
+    vector<float> textureUVs = {
+        //Left-bottom triangle
+        0.0, 0.0,
+        0.0, 1.0,
+        1.0, 1.0,
+        //Right-top triangle
+        1.0, 1.0,
+        1.0, 0.0,
+        0.0, 0.0
+    };
+
     Loader loader;
-    SimpleModel cube = loader.loadToVao(squareVerts);
+    GLuint sqTex = loader.loadTexture("goku", 0);
+
+    TexturedModel rect = loader.loadToVao(rectVerts, textureUVs, sqTex);
     Shader shader("shaders/v_shader.glsl", "shaders/f_shader.glsl");
 
     /*Loop while the window hasn't been close*/
@@ -67,10 +81,14 @@ int main(void){
         shader.startShader();
          glUniform1f(1, (GLfloat)glfwGetTime());
         /*Render*/
-        glBindVertexArray(cube.GetvaoID());
+        glBindVertexArray(rect.GetvaoID());
         glEnableVertexAttribArray(0);
-        glDrawArrays(GL_TRIANGLES, 0, cube.GetnumVertices());
+        glEnableVertexAttribArray(2);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, rect.getTex());
+        glDrawArrays(GL_TRIANGLES, 0, rect.GetnumVertices());
         glDisableVertexAttribArray(0);
+        glEnableVertexAttribArray(2);
         glBindVertexArray(0);
         shader.stopShader();
 

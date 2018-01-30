@@ -76,26 +76,31 @@
 1514417374 source:c:\users\legen\documents\code blocks\game_engine\helpful_classes\simplemodel.cpp
 	"SimpleModel.h"
 
-1514418062 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\loader.cpp
+1517291007 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\loader.cpp
 	"Loader.h"
+	<iostream>
 
-1514520252 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\loader.h
+1517288273 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\loader.h
 	"SimpleModel.h"
+	"TexturedModel.h"
+	"Soil/SOIL.h"
 	<vector>
+	<string>
 
-1514520252 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\simplemodel.h
+1517284555 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\simplemodel.h
 	<GL/glew.h>
 	<GL/gl.h>
 
-1514417374 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\simplemodel.cpp
+1517286282 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\simplemodel.cpp
 	"SimpleModel.h"
 
-1514529241 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\main.cpp
+1517291461 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\main.cpp
 	<iostream>
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 	"Loader.h"
 	"SimpleModel.h"
+	"TexturedModel.h"
 	"Shader.h"
 
 1514527645 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\shader_classes\shader.cpp
@@ -107,4 +112,12 @@
 	<string>
 	<fstream>
 	<iostream>
+
+1517291419 c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\texturedmodel.h
+	<SimpleModel.h>
+
+1215472408 c:\opengl\dependencies\soil\soil.h
+
+1517291416 source:c:\users\legen\documents\github\interactive-3d-graphics\game_engine\helpful_classes\texturedmodel.cpp
+	"TexturedModel.h"
 

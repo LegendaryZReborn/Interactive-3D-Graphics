@@ -1,4 +1,5 @@
 #include "Loader.h"
+#include <iostream>
 
 Loader::Loader(){
 }
@@ -9,6 +10,16 @@ SimpleModel Loader::loadToVao(vector<float> vertices){
     glBindVertexArray(0);
 
     SimpleModel model(vaoID, vertices.size()/3);
+    return model;
+}
+
+TexturedModel Loader::loadToVao(vector<float> vertices, vector<float> textures, GLuint texID){
+    GLuint vaoID = createVao();
+    storeDataInVao(0, 3, vertices);
+    storeDataInVao(2, 2, textures);
+    glBindVertexArray(0);
+
+    TexturedModel model(vaoID, texID, vertices.size()/3);
     return model;
 }
 
@@ -35,6 +46,34 @@ void Loader::storeDataInVao(GLuint attributeNum, int size, vector<float> data){
     vbos.push_back(vboID);
 }
 
+GLuint Loader::loadTexture(string filename, int unit){
+    string full_path = "textures\\" + filename + ".jpg";
+
+    cout << full_path << endl;
+    GLint width, height;
+    unsigned char* image = SOIL_load_image(full_path.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+    cout <<     SOIL_last_result() << endl;
+    GLuint tex;
+
+    if(image){
+        glActiveTexture(unit);
+        glGenTextures(1, &tex);
+        glBindTexture(GL_TEXTURE_2D, tex);
+
+        //Apply settings
+
+        //Load the texture image to the active texture unit
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+        SOIL_free_image_data(image);
+        textures.push_back(tex);
+    }
+    else{
+       tex = -1;
+    }
+
+    return tex;
+}
+
 void Loader::cleanUp(){
     for(auto vao: vaos)
     {
@@ -45,6 +84,12 @@ void Loader::cleanUp(){
     {
         glDeleteBuffers(1, &vbo);
     }
+
+    for(auto tex: textures)
+    {
+        glDeleteTextures(1, &tex);
+    }
+
 }
 
 Loader::~Loader(){
